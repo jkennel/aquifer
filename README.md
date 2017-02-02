@@ -6,5 +6,5 @@
 
 ```{r setup, include=FALSE}
 library(devtools)
-install_github('jkennel/aquifers')
+install_github('jkennel/aquifer')
 ```

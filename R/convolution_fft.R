@@ -1,18 +1,11 @@
-# ==============================================================================
-#' pad
-#'
-#' @param x vector of values for fft
-#'
-#' @return padded vector for fft
-#' @export
-#'
-pad <- function(x){
-  c(rep(0, length(x)), x, rep(0, length(x)))
-}
 
 
 # ==============================================================================
+#' @title
 #' theis_convolve
+#'
+#' @description
+#' Implementation of Barker, 1988 Generalized Radial Flow model for line source/sink
 #'
 #' @param radius distance to monitoring location
 #' @param storativity the storativity of the aquifer
@@ -42,13 +35,21 @@ theis_convolve <- function(radius,
   # calculate the pulse
   u <- impulse_function(u, 1)
 
-  u <- Re(fftw::IFFT(fftw::FFT(pad(coefs))  * fftw::FFT(pad(u))))[(2*length(u) + 1):(3*length(u))]
+  n_pad <- ceiling(length(u)/2)
+  sub <- (2 * n_pad + 1):(2 * n_pad + length(u))
+
+  u <- Re(fftw::IFFT(fftw::FFT(c(rep(0.0,n_pad),coefs,rep(0.0,n_pad)))  *
+                       fftw::FFT(c(rep(0.0,n_pad),u,rep(0.0,n_pad)))))[sub]
 
 }
 
 
 # ==============================================================================
+#' @title
 #' hantush_convolve
+#'
+#' @description
+#' Implementation of Hantush leaky aquifer solution
 #'
 #' @param radius distance to monitoring location
 #' @param storativity the storativity of the aquifer
@@ -81,6 +82,9 @@ hantush_convolve <- function(radius,
   u <- impulse_function(u, 1)
 
   # do the convolution
-  u <- Re(fftw::IFFT(fftw::FFT(pad(coefs))  * fftw::FFT(pad(u))))[(2*length(u) + 1):(3*length(u))]
+  n_pad <- ceiling(length(u)/2)
+  sub <- (2 * n_pad + 1):(2 * n_pad + length(u))
 
+  u <- Re(fftw::IFFT(fftw::FFT(c(rep(0.0,n_pad),coefs,rep(0.0,n_pad)))  *
+                       fftw::FFT(c(rep(0.0,n_pad),u,rep(0.0,n_pad)))))[sub]
 }

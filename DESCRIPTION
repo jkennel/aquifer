@@ -20,3 +20,4 @@ LinkingTo: Rcpp, RcppParallel, RcppArmadillo, BH
 RoxygenNote: 6.0.0
 Suggests: testthat,
     covr
+Roxygen: list(markdown = TRUE)

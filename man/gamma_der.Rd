@@ -15,5 +15,5 @@ gamma_der(u, a)
 the result of the gamma function
 }
 \description{
-Derivative of the gamma function.  Need to check on this.
+Derivative of the gamma function.
 }
