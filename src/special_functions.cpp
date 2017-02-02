@@ -56,7 +56,7 @@ double bh_gamma_neg(double u, double a) {
 //' @export
 // [[Rcpp::export]]
 double gamma_der(double u, double a) {
-  return pow( u, a ) / exp(u);
+  return pow( u, a-1 ) / exp(u);
 }
 
 
