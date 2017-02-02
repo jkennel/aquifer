@@ -4,12 +4,12 @@
 \alias{grf_parallel}
 \title{grf_parallel}
 \usage{
-grf_parallel(a, u)
+grf_parallel(u, a)
 }
 \arguments{
-\item{a}{flow dimension}
-
 \item{u}{value of the Theis u}
+
+\item{a}{flow dimension}
 }
 \value{
 exponential integral

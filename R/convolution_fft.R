@@ -38,7 +38,7 @@ theis_convolve <- function(radius,
 
   # calculate the Well function
   u <- theis_u_time(radius, storativity, transmissivity, time)
-  u <- grf_parallel(v, u)
+  u <- grf_parallel(u, v)
 
   # calculate the pulse
   u <- impulse_function(u, 1)

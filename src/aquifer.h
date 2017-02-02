@@ -25,11 +25,9 @@ double gamma_der(double u, double a);
 double exp_int_single(double u, double a=0);
 
 Rcpp::NumericVector grf_coefficient(Rcpp::NumericVector flow_rate, double radius, double K, double thickness, double flow_dimension);
-Rcpp::NumericVector grf_int(double a, const Rcpp::NumericVector& u);
-Rcpp::NumericVector grf_parallel(double a, Rcpp::NumericVector u);
+Rcpp::NumericVector grf_parallel( Rcpp::NumericVector u,double a);
 
 Rcpp::NumericVector impulse_function(Rcpp::NumericVector& u, double flow_time_interval=1.0);
-Rcpp::NumericVector hantush_well(const Rcpp::NumericVector& u, double b, int n_terms = 10);
 
 double hantush_epsilon(double radius, double leakage);
 double hantush_well_single(double u, double b, int n_terms=10);

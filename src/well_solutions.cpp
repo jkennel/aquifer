@@ -41,7 +41,7 @@ Rcpp::NumericVector grf_time_parallel(double radius,
 
   // calculate the Well function
   u = theis_u_time(radius, storativity, transmissivity, time);
-  u = grf_parallel(v, u);
+  u = grf_parallel(u, v);
 
   // calculate the pulse
   u = impulse_function(u, flow_time_interval);

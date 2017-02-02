@@ -12,4 +12,15 @@ test_that("grf_time_parallel works", {
                                  rep(0.01, 1000), 1, flow_dimension),
                grf_time_parallel(radius, storativity, transmissivity, time,
                                  rep(0.01, 100), 10, flow_dimension))
+
+  # check reproducability
+  expect_equal(grf_time_parallel(radius, storativity, transmissivity, time,
+                                 rep(0.01, 1000), 1, 1),
+               grf_time_parallel(radius, storativity, transmissivity, time,
+                                 rep(0.01, 100), 10, 1))
+
+  expect_equal(grf_time_parallel(radius, storativity, transmissivity, time,
+                                 rep(0.01, 1000), 1, 3),
+               grf_time_parallel(radius, storativity, transmissivity, time,
+                                 rep(0.01, 100), 10, 3))
 })

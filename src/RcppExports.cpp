@@ -81,27 +81,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// grf
-Rcpp::NumericVector grf(double a, const Rcpp::NumericVector& u);
-RcppExport SEXP aquifer_grf(SEXP aSEXP, SEXP uSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type a(aSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type u(uSEXP);
-    rcpp_result_gen = Rcpp::wrap(grf(a, u));
-    return rcpp_result_gen;
-END_RCPP
-}
 // grf_parallel
-Rcpp::NumericVector grf_parallel(double a, Rcpp::NumericVector u);
-RcppExport SEXP aquifer_grf_parallel(SEXP aSEXP, SEXP uSEXP) {
+Rcpp::NumericVector grf_parallel(Rcpp::NumericVector u, double a);
+RcppExport SEXP aquifer_grf_parallel(SEXP uSEXP, SEXP aSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type a(aSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type u(uSEXP);
-    rcpp_result_gen = Rcpp::wrap(grf_parallel(a, u));
+    Rcpp::traits::input_parameter< double >::type a(aSEXP);
+    rcpp_result_gen = Rcpp::wrap(grf_parallel(u, a));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -126,19 +114,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type b(bSEXP);
     Rcpp::traits::input_parameter< int >::type n_terms(n_termsSEXP);
     rcpp_result_gen = Rcpp::wrap(hantush_well_single(u, b, n_terms));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hantush_well
-Rcpp::NumericVector hantush_well(const Rcpp::NumericVector& u, double b, int n_terms);
-RcppExport SEXP aquifer_hantush_well(SEXP uSEXP, SEXP bSEXP, SEXP n_termsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type u(uSEXP);
-    Rcpp::traits::input_parameter< double >::type b(bSEXP);
-    Rcpp::traits::input_parameter< int >::type n_terms(n_termsSEXP);
-    rcpp_result_gen = Rcpp::wrap(hantush_well(u, b, n_terms));
     return rcpp_result_gen;
 END_RCPP
 }

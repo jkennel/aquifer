@@ -111,39 +111,21 @@ exp_int_single <- function(u, a) {
 }
 
 #' @title
-#' grf
-#'
-#' @description
-#' Non parallel vector version of the exponential integral using Boost
-#'
-#' @param a flow dimension
-#' @param u value of the Theis u
-#'
-#' @return exponential integral
-#'
-#'
-#' @export
-#'
-grf <- function(a, u) {
-    .Call('aquifer_grf', PACKAGE = 'aquifer', a, u)
-}
-
-#' @title
 #' grf_parallel
 #'
 #' @description
 #' Parallel vector version of the exponential integral
 #'
-#' @param a flow dimension
 #' @param u value of the Theis u
+#' @param a flow dimension
 #'
 #' @return exponential integral
 #'
 #'
 #' @export
 #'
-grf_parallel <- function(a, u) {
-    .Call('aquifer_grf_parallel', PACKAGE = 'aquifer', a, u)
+grf_parallel <- function(u, a) {
+    .Call('aquifer_grf_parallel', PACKAGE = 'aquifer', u, a)
 }
 
 #' @title
@@ -181,26 +163,6 @@ bessel_k <- function(u) {
 #'
 hantush_well_single <- function(u, b, n_terms) {
     .Call('aquifer_hantush_well_single', PACKAGE = 'aquifer', u, b, n_terms)
-}
-
-#' @title
-#' hantush_well
-#'
-#' @description
-#' Result of the hantush well function
-#'
-#' @param u (vector) value of the Theis u
-#' @param b the leakance
-#' @param n_terms the number of terms used in the hantush approximation
-#'
-#'
-#' @return hantush well function
-#'
-#'
-#' @export
-#'
-hantush_well <- function(u, b, n_terms) {
-    .Call('aquifer_hantush_well', PACKAGE = 'aquifer', u, b, n_terms)
 }
 
 #' @title
