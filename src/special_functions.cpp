@@ -46,7 +46,7 @@ double bh_gamma_neg(double u, double a) {
 //' gamma_der
 //'
 //' @description
-//' Derivative of the gamma function.  Need to check on this.
+//' Derivative of the gamma function.
 //'
 //' @param u numeric to evaluate the gamma function
 //' @param a numeric
