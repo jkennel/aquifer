@@ -1,0 +1,21 @@
+Package: aquifer
+Type: Package
+Title: Well solutions for aquifer tests
+Version: 0.0.1
+Author: Jonathan Kennel, Beth Parker
+Maintainer: Jonathan Kennel <jkennel@uoguelph.ca>
+Description: The aquifer package provides well solutions for the analysis of
+    hydraulic tests.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Depends: 
+Imports:
+    Rcpp,
+    RcppParallel,
+    RcppArmadillo,
+    BH,
+    fftw
+LinkingTo: Rcpp, RcppParallel, RcppArmadillo, BH
+RoxygenNote: 6.0.0
+Suggests: testthat

@@ -1,0 +1,11 @@
+---
+title: "README"
+author: "Jonathan Kennel"
+date: "November 29, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(devtools)
+install_github('jkennel/aquifers')
+```
