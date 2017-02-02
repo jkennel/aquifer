@@ -18,4 +18,5 @@ Imports:
     fftw
 LinkingTo: Rcpp, RcppParallel, RcppArmadillo, BH
 RoxygenNote: 6.0.0
-Suggests: testthat
+Suggests: testthat,
+    covr
