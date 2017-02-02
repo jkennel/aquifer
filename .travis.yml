@@ -2,4 +2,4 @@ language: r
 cache: packages
 sudo: required
 apt_packages:
-  - fftw-dev
+  - libfftw3-dev
