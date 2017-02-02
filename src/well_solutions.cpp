@@ -39,6 +39,16 @@ Rcpp::NumericVector grf_time_parallel(double radius,
   Rcpp::NumericVector u = Rcpp::NumericVector(n);
   Rcpp::NumericVector s = Rcpp::NumericVector(n);
 
+  // check that flow time interval values are reasonable
+  if (flow_time_interval < 1){
+    flow_time_interval = 1;
+    Rcpp::warning("flow_time_interval should be >= 1: set to 1");
+  }
+  if (flow_time_interval > n){
+    flow_time_interval = n;
+    Rcpp::warning("flow_time_interval should be <= n: set to n ");
+  }
+
   // calculate the Well function
   u = theis_u_time(radius, storativity, transmissivity, time);
   u = grf_parallel(u, v);

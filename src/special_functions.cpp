@@ -46,7 +46,7 @@ double bh_gamma_neg(double u, double a) {
 //' gamma_der
 //'
 //' @description
-//' Derivative of the gamma function
+//' Derivative of the gamma function.  Need to check on this.
 //'
 //' @param u numeric to evaluate the gamma function
 //' @param a numeric
@@ -298,81 +298,6 @@ Rcpp::NumericVector hantush_well_parallel(Rcpp::NumericVector u,
 }
 
 
-
-
-// //==============================================================================
-// //' @title
-// //' grf
-// //'
-// //' @description
-// //' Non parallel vector version of the exponential integral using Boost
-// //'
-// //' @param u value of the Theis u
-// //' @param a flow dimension
-// //'
-// //' @return exponential integral
-// //'
-// //'
-// //' @export
-// //'
-// // [[Rcpp::export]]
-// Rcpp::NumericVector grf(const Rcpp::NumericVector& u, double a) {
-//
-//   // number of outputs
-//   const int n_time = u.size();
-//   Rcpp::NumericVector out(n_time);
-//
-//   boost::function<double(double, double)> grf_fun;
-//
-//   if(a==0){
-//     grf_fun = &exp_int_single;
-//   } else if(a>0){
-//     grf_fun = &bh_tgamma;
-//   } else {
-//     grf_fun = &bh_gamma_neg;
-//   }
-//
-//
-//   for (std::size_t i = 0; i < n_time; i++) {
-//     out[i] = grf_fun(u[i], a);
-//   }
-//
-//   return(out);
-// }
-//
-// //==============================================================================
-// //' @title
-// //' hantush_well
-// //'
-// //' @description
-// //' Result of the hantush well function
-// //'
-// //' @param u (vector) value of the Theis u
-// //' @param b the leakance
-// //' @param n_terms the number of terms used in the hantush approximation
-// //'
-// //'
-// //' @return hantush well function
-// //'
-// //'
-// //' @export
-// //'
-// // [[Rcpp::export]]
-// Rcpp::NumericVector hantush_well(const Rcpp::NumericVector& u,
-//                                  double b,
-//                                  int n_terms) {
-//
-//   const std::size_t n_time = u.size();
-//   Rcpp::NumericVector out(n_time);
-//
-//   for (unsigned int i = 0; i < n_time; i++) {
-//
-//     out[i] = hantush_well_single(u[i], b, n_terms);
-//
-//   }
-//
-//   return(out);
-// }
 
 // Neumann ---------------------------------------------------------------------
 // Moench  ---------------------------------------------------------------------

@@ -8,19 +8,34 @@ test_that("grf_time_parallel works", {
   flow_dimension <- 2
   time <- 1:1000
 
-  expect_equal(grf_time_parallel(radius, storativity, transmissivity, time,
-                                 rep(0.01, 1000), 1, flow_dimension),
-               grf_time_parallel(radius, storativity, transmissivity, time,
-                                 rep(0.01, 100), 10, flow_dimension))
 
-  # check reproducability
+  # check flow dimensions
   expect_equal(grf_time_parallel(radius, storativity, transmissivity, time,
                                  rep(0.01, 1000), 1, 1),
                grf_time_parallel(radius, storativity, transmissivity, time,
                                  rep(0.01, 100), 10, 1))
 
   expect_equal(grf_time_parallel(radius, storativity, transmissivity, time,
+                                 rep(0.01, 1000), 1, flow_dimension),
+               grf_time_parallel(radius, storativity, transmissivity, time,
+                                 rep(0.01, 100), 10, flow_dimension))
+
+  expect_equal(grf_time_parallel(radius, storativity, transmissivity, time,
                                  rep(0.01, 1000), 1, 3),
                grf_time_parallel(radius, storativity, transmissivity, time,
                                  rep(0.01, 100), 10, 3))
+
+  # test flow_time_interval < 1 should equal the same as 1
+  expect_warning(val <- grf_time_parallel(radius, storativity, transmissivity, time,
+                                 rep(0.01, 1000), 0.5, 3))
+  expect_equal(grf_time_parallel(radius, storativity, transmissivity, time,
+                                 rep(0.01, 1000), 1, 3), val)
+
+
+  # test flow_time_interval < 1 should equal the same as 1
+  expect_warning(val <- grf_time_parallel(radius, storativity, transmissivity, time,
+                                          rep(0.01, 1000), 2000, 3))
+  expect_equal(grf_time_parallel(radius, storativity, transmissivity, time,
+                                 rep(0.01, 1000), 1000, 3), val)
+
 })

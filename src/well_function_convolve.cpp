@@ -19,18 +19,17 @@ struct parallel_convolve_time : public Worker
                          const Rcpp::NumericVector& u,
                          Rcpp::NumericVector& output)
     : flow_time_interval(flow_time_interval), n(n), tc(tc), u(u), output(output) {
+
+
   }
 
   // calculate the convolution in the time domain
   void operator()(std::size_t begin_row, std::size_t end_row) {
     int ind;
+
     for (int i = begin_row; i < end_row; i++) {
 
       ind = i / flow_time_interval;
-
-      if (ind >= n){
-        ind = n-1;
-      }
 
       // determine pumping regimes
       for (std::size_t j = 0; j <= ind; j++) {
