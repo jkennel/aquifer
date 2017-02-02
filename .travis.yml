@@ -1,3 +1,6 @@
 language: r
 cache: packages
-before_install: sudo apt-get install libfftw3-dev libfftw3-doc
+addons:
+  apt:
+    packages:
+    -libfftw3-dev
