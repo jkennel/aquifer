@@ -1,4 +1,4 @@
 language: r
 cache: packages
 apt_packages:
-  - libfftw3-dev
+  - fftw-dev
