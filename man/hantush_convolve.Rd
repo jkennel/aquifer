@@ -26,5 +26,5 @@ hantush_convolve(radius, storativity, transmissivity, leakage, time, flow_rate,
 hantush solution for multiple pumping periods
 }
 \description{
-hantush_convolve
+Implementation of Hantush leaky aquifer solution
 }

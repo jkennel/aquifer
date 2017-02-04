@@ -24,5 +24,5 @@ theis_convolve(radius, storativity, transmissivity, time, flow_rate,
 grf solution for multiple pumping periods
 }
 \description{
-theis_convolve
+Implementation of Barker, 1988 Generalized Radial Flow model for line source/sink
 }

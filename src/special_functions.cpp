@@ -10,8 +10,8 @@
 //' @description
 //' Approximate the gamma function using Boost
 //'
-//' @param a numeric
 //' @param u numeric to evaluate the gamma function
+//' @param a numeric flow dimension parameter
 //'
 //' @return the result of the gamma function
 //'
@@ -30,7 +30,7 @@ double bh_tgamma(double u, double a) {
 //' Approximate the gamma function when a is negative using Boost
 //'
 //' @param u numeric to evaluate the gamma function
-//' @param a numeric
+//' @param a numeric flow dimension parameter
 //'
 //' @return the result of the gamma function
 //'
@@ -49,7 +49,7 @@ double bh_gamma_neg(double u, double a) {
 //' Derivative of the gamma function.
 //'
 //' @param u numeric to evaluate the gamma function
-//' @param a numeric
+//' @param a numeric flow dimension parameter
 //'
 //' @return the result of the gamma function
 //'
@@ -67,8 +67,8 @@ double gamma_der(double u, double a) {
 //' @description
 //' Calculate the exponential integral using Boost
 //'
-//' @param a not used (flow dimension)
 //' @param u value of the Theis u
+//' @param a not used (flow dimension)
 //'
 //' @return exponential integral
 //'

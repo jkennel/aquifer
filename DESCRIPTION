@@ -19,5 +19,8 @@ Imports:
 LinkingTo: Rcpp, RcppParallel, RcppArmadillo, BH
 RoxygenNote: 6.0.0
 Suggests: testthat,
-    covr
+    covr,
+    knitr, 
+    rmarkdown
+VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
