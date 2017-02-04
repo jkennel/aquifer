@@ -13,8 +13,6 @@ Depends:
 Imports:
     Rcpp,
     RcppParallel,
-    RcppArmadillo,
-    BH,
     fftw
 LinkingTo: Rcpp, RcppParallel, RcppArmadillo, BH
 RoxygenNote: 6.0.0
