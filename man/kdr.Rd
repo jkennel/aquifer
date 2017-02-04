@@ -18,6 +18,6 @@ Data from Analysis and Evaluation of Pumping Test Data 'Oude Korendijk' (after W
 data(kdr)
 }
 \references{
-Analysis and Evaluation of Pumping Test Data (1994)
+G.P. Kruseman, N.A. de Ridder, Analysis and Evaluation of Pumping Test Data (1994), International Institute for Land Reclamation and Improvement.
 }
 \keyword{datasets}

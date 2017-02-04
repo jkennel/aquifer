@@ -9,7 +9,7 @@ bh_gamma_neg(u, a)
 \arguments{
 \item{u}{numeric to evaluate the gamma function}
 
-\item{a}{numeric}
+\item{a}{numeric flow dimension parameter}
 }
 \value{
 the result of the gamma function

@@ -6,7 +6,6 @@ struct parallel_convolve_time : public Worker
   // source vector
 
   int flow_time_interval;
-  int n;
   const RVector<double> tc;
   const RVector<double> u;
 
@@ -14,11 +13,10 @@ struct parallel_convolve_time : public Worker
   RVector<double> output;
 
   parallel_convolve_time(int flow_time_interval,
-                         int n,
                          const Rcpp::NumericVector& tc,
                          const Rcpp::NumericVector& u,
                          Rcpp::NumericVector& output)
-    : flow_time_interval(flow_time_interval), n(n), tc(tc), u(u), output(output) {
+    : flow_time_interval(flow_time_interval), tc(tc), u(u), output(output) {
 
 
   }
@@ -32,7 +30,7 @@ struct parallel_convolve_time : public Worker
       ind = i / flow_time_interval;
 
       // determine pumping regimes
-      for (std::size_t j = 0; j <= ind; j++) {
+      for (int j = 0; j <= ind; j++) {
         output[i] += tc[j] * u[i-(j*flow_time_interval)];
       }
 
@@ -65,17 +63,15 @@ Rcpp::NumericVector well_function_convolve(int flow_time_interval,
                                            const Rcpp::NumericVector& coefs) {
 
   int n = u.size();
-  int n_q = coefs.size();
 
   Rcpp::NumericVector s = Rcpp::NumericVector(n);
 
-  parallel_convolve_time pc(flow_time_interval, n_q, coefs, u, s);
+  parallel_convolve_time pc(flow_time_interval, coefs, u, s);
 
   RcppParallel::parallelFor(0, n, pc);
 
   return(s);
 }
-
 
 
 

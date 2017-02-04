@@ -120,7 +120,7 @@ struct grf_worker : public Worker
 
   // calculate the exponential integral
   void operator()(std::size_t begin_row, std::size_t end_row) {
-    for (int i = begin_row; i < end_row; i++) {
+    for (std::size_t i = begin_row; i < end_row; i++) {
       output[i] = grf_p(input[i], a);
     }
   }
@@ -239,12 +239,10 @@ struct hantush_well_worker : public Worker
 {
   // source vector
 
-  int n_terms;
   const RVector<double> u;
   double b;
-
-  // accumulated value
   RVector<double> output;
+  int n_terms;
 
   hantush_well_worker(const Rcpp::NumericVector& u,
                       double b,
@@ -255,7 +253,7 @@ struct hantush_well_worker : public Worker
 
   // calculate the exponential integral
   void operator()(std::size_t begin_row, std::size_t end_row) {
-    for (int i = begin_row; i < end_row; i++) {
+    for (std::size_t i = begin_row; i < end_row; i++) {
       output[i] = hantush_well_single(u[i], b, n_terms);
     }
   }
@@ -283,8 +281,8 @@ struct hantush_well_worker : public Worker
 //'
 // [[Rcpp::export]]
 Rcpp::NumericVector hantush_well_parallel(Rcpp::NumericVector u,
-                                    double b,
-                                    int n_terms) {
+                                          double b,
+                                          int n_terms) {
 
   int n = u.size();
 

@@ -102,9 +102,9 @@ Rcpp::NumericVector grf_coefficient(Rcpp::NumericVector flow_rate,
 //'
 // [[Rcpp::export]]
 Rcpp::NumericVector theis_u_time(double radius,
-                           double storativity,
-                           double transmissivity,
-                           const Rcpp::NumericVector& time) {
+                                 double storativity,
+                                 double transmissivity,
+                                 const Rcpp::NumericVector& time) {
 
   Rcpp::NumericVector out = (radius * radius * storativity) /
     (4.0 * transmissivity * time);
