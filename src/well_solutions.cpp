@@ -32,7 +32,6 @@ Rcpp::NumericVector grf_time_parallel(double radius,
   double v = 1 - flow_dimension/2;
 
   int n = time.size();
-  int n_q = flow_rate.size();
 
   const Rcpp::NumericVector coefs = well_function_coefficient(flow_rate,  transmissivity);
 
@@ -95,7 +94,6 @@ Rcpp::NumericVector hantush_time_parallel(double radius,
                                           int n_terms) {
 
   int n = time.size();
-  int n_q = flow_rate.size();
   double b = hantush_epsilon(radius, leakage);
 
   const Rcpp::NumericVector coefs = well_function_coefficient(flow_rate,  transmissivity);

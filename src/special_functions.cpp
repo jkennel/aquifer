@@ -97,12 +97,12 @@ struct grf_worker : public Worker
 {
   // source vector
 
-  double a;
   const RVector<double> input;
+  RVector<double> output;
+  double a;
+
   boost::function<double(double, double)> grf_p;
 
-  // accumulated value
-  RVector<double> output;
 
   grf_worker(double a, Rcpp::NumericVector& input,
              Rcpp::NumericVector& output)

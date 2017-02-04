@@ -23,14 +23,14 @@ struct parallel_convolve_time : public Worker
 
   // calculate the convolution in the time domain
   void operator()(std::size_t begin_row, std::size_t end_row) {
-    int ind;
+    unsigned ind;
 
-    for (int i = begin_row; i < end_row; i++) {
+    for (unsigned i = begin_row; i < end_row; i++) {
 
       ind = i / flow_time_interval;
 
       // determine pumping regimes
-      for (int j = 0; j <= ind; j++) {
+      for (unsigned j = 0; j <= ind; j++) {
         output[i] += tc[j] * u[i-(j*flow_time_interval)];
       }
 
