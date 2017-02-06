@@ -184,32 +184,33 @@ BEGIN_RCPP
 END_RCPP
 }
 // well_function_convolve
-Rcpp::NumericVector well_function_convolve(int flow_time_interval, const Rcpp::NumericVector& u, const Rcpp::NumericVector& coefs);
-RcppExport SEXP aquifer_well_function_convolve(SEXP flow_time_intervalSEXP, SEXP uSEXP, SEXP coefsSEXP) {
+Rcpp::NumericVector well_function_convolve(int flow_time_interval, const Rcpp::NumericVector& coefs, const Rcpp::NumericVector& u);
+RcppExport SEXP aquifer_well_function_convolve(SEXP flow_time_intervalSEXP, SEXP coefsSEXP, SEXP uSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type flow_time_interval(flow_time_intervalSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type u(uSEXP);
     Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type coefs(coefsSEXP);
-    rcpp_result_gen = Rcpp::wrap(well_function_convolve(flow_time_interval, u, coefs));
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type u(uSEXP);
+    rcpp_result_gen = Rcpp::wrap(well_function_convolve(flow_time_interval, coefs, u));
     return rcpp_result_gen;
 END_RCPP
 }
 // grf_time_parallel
-Rcpp::NumericVector grf_time_parallel(double radius, double storativity, double transmissivity, const Rcpp::NumericVector& time, const Rcpp::NumericVector& flow_rate, int flow_time_interval, double flow_dimension);
-RcppExport SEXP aquifer_grf_time_parallel(SEXP radiusSEXP, SEXP storativitySEXP, SEXP transmissivitySEXP, SEXP timeSEXP, SEXP flow_rateSEXP, SEXP flow_time_intervalSEXP, SEXP flow_dimensionSEXP) {
+Rcpp::NumericVector grf_time_parallel(double radius, double storativity, double K, double thickness, const Rcpp::NumericVector& time, const Rcpp::NumericVector& flow_rate, int flow_time_interval, double flow_dimension);
+RcppExport SEXP aquifer_grf_time_parallel(SEXP radiusSEXP, SEXP storativitySEXP, SEXP KSEXP, SEXP thicknessSEXP, SEXP timeSEXP, SEXP flow_rateSEXP, SEXP flow_time_intervalSEXP, SEXP flow_dimensionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< double >::type radius(radiusSEXP);
     Rcpp::traits::input_parameter< double >::type storativity(storativitySEXP);
-    Rcpp::traits::input_parameter< double >::type transmissivity(transmissivitySEXP);
+    Rcpp::traits::input_parameter< double >::type K(KSEXP);
+    Rcpp::traits::input_parameter< double >::type thickness(thicknessSEXP);
     Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type time(timeSEXP);
     Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type flow_rate(flow_rateSEXP);
     Rcpp::traits::input_parameter< int >::type flow_time_interval(flow_time_intervalSEXP);
     Rcpp::traits::input_parameter< double >::type flow_dimension(flow_dimensionSEXP);
-    rcpp_result_gen = Rcpp::wrap(grf_time_parallel(radius, storativity, transmissivity, time, flow_rate, flow_time_interval, flow_dimension));
+    rcpp_result_gen = Rcpp::wrap(grf_time_parallel(radius, storativity, K, thickness, time, flow_rate, flow_time_interval, flow_dimension));
     return rcpp_result_gen;
 END_RCPP
 }

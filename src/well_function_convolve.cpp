@@ -49,8 +49,8 @@ struct parallel_convolve_time : public Worker
 //' Parallel convolution in the time domain
 //'
 //' @param flow_time_interval time between flow rate measurements in samples
-//' @param u well impuse function
 //' @param coefs well coeffiicents
+//' @param u well impuse function
 //'
 //' @return impulse function for convolution
 //'
@@ -59,8 +59,8 @@ struct parallel_convolve_time : public Worker
 //'
 // [[Rcpp::export]]
 Rcpp::NumericVector well_function_convolve(int flow_time_interval,
-                                           const Rcpp::NumericVector& u,
-                                           const Rcpp::NumericVector& coefs) {
+                                           const Rcpp::NumericVector& coefs,
+                                           const Rcpp::NumericVector& u) {
 
   int n = u.size();
 

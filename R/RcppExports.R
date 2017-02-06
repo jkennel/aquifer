@@ -270,16 +270,16 @@ theis_u_time <- function(radius, storativity, transmissivity, time) {
 #' Parallel convolution in the time domain
 #'
 #' @param flow_time_interval time between flow rate measurements in samples
-#' @param u well impuse function
 #' @param coefs well coeffiicents
+#' @param u well impuse function
 #'
 #' @return impulse function for convolution
 #'
 #'
 #' @export
 #'
-well_function_convolve <- function(flow_time_interval, u, coefs) {
-    .Call('aquifer_well_function_convolve', PACKAGE = 'aquifer', flow_time_interval, u, coefs)
+well_function_convolve <- function(flow_time_interval, coefs, u) {
+    .Call('aquifer_well_function_convolve', PACKAGE = 'aquifer', flow_time_interval, coefs, u)
 }
 
 #' @title
@@ -291,7 +291,8 @@ well_function_convolve <- function(flow_time_interval, u, coefs) {
 #'
 #' @param radius distance to monitoring interval
 #' @param storativity aquifer storativity
-#' @param transmissivity aquifer transmissivity
+#' @param K aquifer hydraulic conductivity
+#' @param thickness aquifer thickness
 #' @param time prediction times
 #' @param flow_rate well flow rates
 #' @param flow_time_interval time between flow rate measurements in samples
@@ -302,8 +303,8 @@ well_function_convolve <- function(flow_time_interval, u, coefs) {
 #'
 #' @export
 #'
-grf_time_parallel <- function(radius, storativity, transmissivity, time, flow_rate, flow_time_interval, flow_dimension) {
-    .Call('aquifer_grf_time_parallel', PACKAGE = 'aquifer', radius, storativity, transmissivity, time, flow_rate, flow_time_interval, flow_dimension)
+grf_time_parallel <- function(radius, storativity, K, thickness, time, flow_rate, flow_time_interval, flow_dimension) {
+    .Call('aquifer_grf_time_parallel', PACKAGE = 'aquifer', radius, storativity, K, thickness, time, flow_rate, flow_time_interval, flow_dimension)
 }
 
 #' @title

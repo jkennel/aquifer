@@ -4,14 +4,14 @@
 \alias{well_function_convolve}
 \title{well_function_convolve}
 \usage{
-well_function_convolve(flow_time_interval, u, coefs)
+well_function_convolve(flow_time_interval, coefs, u)
 }
 \arguments{
 \item{flow_time_interval}{time between flow rate measurements in samples}
 
-\item{u}{well impuse function}
-
 \item{coefs}{well coeffiicents}
+
+\item{u}{well impuse function}
 }
 \value{
 impulse function for convolution

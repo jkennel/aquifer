@@ -4,7 +4,7 @@
 \alias{grf_time_parallel}
 \title{grf_time_parallel}
 \usage{
-grf_time_parallel(radius, storativity, transmissivity, time, flow_rate,
+grf_time_parallel(radius, storativity, K, thickness, time, flow_rate,
   flow_time_interval, flow_dimension)
 }
 \arguments{
@@ -12,7 +12,9 @@ grf_time_parallel(radius, storativity, transmissivity, time, flow_rate,
 
 \item{storativity}{aquifer storativity}
 
-\item{transmissivity}{aquifer transmissivity}
+\item{K}{aquifer hydraulic conductivity}
+
+\item{thickness}{aquifer thickness}
 
 \item{time}{prediction times}
 

@@ -10,7 +10,8 @@
 //'
 //' @param radius distance to monitoring interval
 //' @param storativity aquifer storativity
-//' @param transmissivity aquifer transmissivity
+//' @param K aquifer hydraulic conductivity
+//' @param thickness aquifer thickness
 //' @param time prediction times
 //' @param flow_rate well flow rates
 //' @param flow_time_interval time between flow rate measurements in samples
@@ -24,16 +25,18 @@
 // [[Rcpp::export]]
 Rcpp::NumericVector grf_time_parallel(double radius,
                                       double storativity,
-                                      double transmissivity,
+                                      double K,
+                                      double thickness,
                                       const Rcpp::NumericVector& time,
                                       const Rcpp::NumericVector& flow_rate,
                                       int flow_time_interval,
                                       double flow_dimension) {
+
   double v = 1 - flow_dimension/2;
 
   int n = time.size();
 
-  const Rcpp::NumericVector coefs = well_function_coefficient(flow_rate,  transmissivity);
+  const Rcpp::NumericVector coefs = grf_coefficient(flow_rate, radius, K, thickness, flow_dimension);
 
   Rcpp::NumericVector u = Rcpp::NumericVector(n);
   Rcpp::NumericVector s = Rcpp::NumericVector(n);
@@ -49,13 +52,13 @@ Rcpp::NumericVector grf_time_parallel(double radius,
   }
 
   // calculate the Well function
-  u = theis_u_time(radius, storativity, transmissivity, time);
+  u = theis_u_time(radius, storativity, K, time);
   u = grf_parallel(u, v);
 
   // calculate the pulse
   u = impulse_function(u, flow_time_interval);
 
-  s = well_function_convolve(flow_time_interval, u, coefs);
+  s = well_function_convolve(flow_time_interval, coefs, u);
 
   return s;
 }
@@ -108,7 +111,7 @@ Rcpp::NumericVector hantush_time_parallel(double radius,
   // calculate the pulse
   u = impulse_function(u, flow_time_interval);
 
-  s = well_function_convolve(flow_time_interval, u, coefs);
+  s = well_function_convolve(flow_time_interval, coefs, u);
 
   return s;
 }
