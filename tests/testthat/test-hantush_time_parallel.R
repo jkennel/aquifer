@@ -10,7 +10,7 @@ test_that("hantush_time_parallel works", {
   flow_rate <- rep(0.01, 1000)
   flow_dimension <- 2
   time <- 1:1000
-  n_terms <- 10
+
 
   expect_equal(hantush_time_parallel(radius, storativity, transmissivity, leakage, time,
                                  rep(0.01, 1000), 1, 10),
