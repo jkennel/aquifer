@@ -15,7 +15,7 @@ Imports:
     RcppParallel,
     fftw
 LinkingTo: Rcpp, RcppParallel, RcppArmadillo, BH
-RoxygenNote: 6.0.0
+RoxygenNote: 6.0.1
 Suggests: testthat,
     covr,
     knitr, 

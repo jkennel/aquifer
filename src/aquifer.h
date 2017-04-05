@@ -2,6 +2,9 @@
 // [[Rcpp::depends(BH)]]
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::depends(RcppParallel)]]
+#ifndef __FFTWTOOLS_H__
+#define __FFTWTOOLS_H__
+
 
 #include <boost/math/special_functions/gamma.hpp>
 #include <boost/math/special_functions/expint.hpp>
@@ -13,8 +16,15 @@
 
 #include <RcppArmadillo.h>
 #include <RcppParallel.h>
+#include <fftw3.h>
+#include <complex.h>
+//#include <fftwtools.h>
 
 using namespace RcppParallel;
+
+void fft_r2c(int* n, double* data,
+             fftw_complex *res, int* retHermConj);
+
 
 double bessel_k(double u);
 
@@ -44,3 +54,5 @@ Rcpp::NumericVector well_function_convolve(int flow_time_interval, const Rcpp::N
 // arma::colvec grf_freq(double radius,double storativity,double transmissivity,const Rcpp::NumericVector& time,const Rcpp::NumericVector& flow_rate, double flow_dimension=2);
 
 double ogata_banks(double D, double v, double C0, double x, double t);
+
+#endif
