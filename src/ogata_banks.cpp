@@ -87,28 +87,28 @@ arma::mat ogata_banks(double D, double v, double C0,
 
 }
 
-/*** R
-D <- 2
-v <- 1
-C0 <- 1
-x <- 1
-t <- 1
-library(microbenchmark)
-microbenchmark(
-  ogata_banks(D, v, C0, 1:100, 1:10),
-  #ogata_banks_ind(D, v, C0, 1, 1),
-  times = 100
-)
-
-tmp <- data.table(ogata_banks(D, v, C0, seq(1, 120, 2), seq(0, 80, 4)))
-tmp[, x := seq(1, 120, 2)]
-plot_ly(tmp, x = ~x, y = ~V1, mode='line') %>%
-  add_lines(x = ~x, y = ~V5, mode='line') %>%
-  add_lines(x = ~x, y = ~V10, mode='line') %>%
-  add_lines(x = ~x, y = ~V15, mode='line') %>%
-  add_lines(x = ~x, y = ~V20, mode='line')
-
-  */
+# /*** R
+# D <- 2
+# v <- 1
+# C0 <- 1
+# x <- 1
+# t <- 1
+# library(microbenchmark)
+# microbenchmark(
+#   ogata_banks(D, v, C0, 1:100, 1:10),
+#   #ogata_banks_ind(D, v, C0, 1, 1),
+#   times = 100
+# )
+#
+# tmp <- data.table(ogata_banks(D, v, C0, seq(1, 120, 2), seq(0, 80, 4)))
+# tmp[, x := seq(1, 120, 2)]
+# plot_ly(tmp, x = ~x, y = ~V1, mode='line') %>%
+#   add_lines(x = ~x, y = ~V5, mode='line') %>%
+#   add_lines(x = ~x, y = ~V10, mode='line') %>%
+#   add_lines(x = ~x, y = ~V15, mode='line') %>%
+#   add_lines(x = ~x, y = ~V20, mode='line')
+#
+#   */
 
 //
 // //==============================================================================

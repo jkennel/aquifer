@@ -136,7 +136,7 @@ Rcpp::NumericVector hantush_time_parallel(double radius,
 //' @param leakage hantush leakage
 //' @param time prediction times
 //' @param flow_rate well flow rates
-//' @param flow_time_interval time between flow rate measurements in samples
+//' @param flow_rate_times time of flow rate changes
 //' @param n_terms number of terms to use in Hantush solution.  More is more precise but slower.
 //'
 //' @return theis solution for multiple pumping scenario

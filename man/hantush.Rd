@@ -20,9 +20,9 @@ hantush(radius, storativity, transmissivity, leakage, time, flow_rate,
 
 \item{flow_rate}{well flow rates}
 
-\item{n_terms}{number of terms to use in Hantush solution.  More is more precise but slower.}
+\item{flow_rate_times}{time of flow rate changes}
 
-\item{flow_time_interval}{time between flow rate measurements in samples}
+\item{n_terms}{number of terms to use in Hantush solution.  More is more precise but slower.}
 }
 \value{
 theis solution for multiple pumping scenario
