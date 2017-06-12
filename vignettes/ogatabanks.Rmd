@@ -12,7 +12,6 @@ knitr::opts_chunk$set(echo = TRUE)
 library(aquifer)
 library(data.table)
 library(plotly)
-library(microbenchmark)
 ```
 
 ## Solution
