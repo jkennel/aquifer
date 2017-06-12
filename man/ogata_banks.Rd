@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{ogata_banks}
 \alias{ogata_banks}
-\title{Ogata-Banks solution for 1-D flow.}
+\title{Ogata-Banks solution for 1-D flow (vectorized).}
 \usage{
 ogata_banks(D, v, C0, x, t)
 }
@@ -13,12 +13,12 @@ ogata_banks(D, v, C0, x, t)
 
 \item{C0}{double concentration}
 
-\item{x}{double x position}
+\item{x}{vector x position}
 
-\item{t}{double time}
+\item{t}{vector time}
 }
 \value{
-ogata banks solution
+ogata banks solution each row is an x value and each column is a time
 }
 \description{
 Ogata, A., Banks, R.B., 1961. A solution of the differential equation of

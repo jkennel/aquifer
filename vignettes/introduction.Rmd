@@ -1,5 +1,5 @@
 ---
-title: "Introduction the the aquifer package"
+title: "Introduction to the aquifer package"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction}
@@ -9,9 +9,13 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(aquifer)
+library(microbenchmark)
 ```
 
-## Purpose
 
-## Capabilities
+## References
 
+Barker, J.A., 1988. A generalized radial flow model for hydraulic tests in fractured rock. Water Resour. Res. 24, 1796–1804.
+
+Hantush, M.S. and C.E. Jacob, 1955. Non-steady radial flow in an infinite leaky aquifer, Am. Geophys. Union Trans., vol. 36, no. 1, pp. 95-100.

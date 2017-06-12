@@ -43,6 +43,7 @@ double hantush_well_single(double u, double b, int n_terms=10);
 Rcpp::NumericVector hantush_well_parallel(Rcpp::NumericVector u, double b, int n_terms);
 Rcpp::NumericVector hantush_time_parallel(double radius, double storativity, double transmissivity, double leakage, const Rcpp::NumericVector& time, const Rcpp::NumericVector& flow_rate, int flow_time_interval);
 
+Rcpp::NumericVector grf_u_time(double radius, double storativity, double K, const Rcpp::NumericVector& time);
 Rcpp::NumericVector theis_u_time(double radius, double storativity, double transmissivity, const Rcpp::NumericVector& time);
 Rcpp::NumericVector theis_u_radius(const Rcpp::NumericVector& radius, double storativity, double transmissivity, double time);
 Rcpp::NumericVector grf_time_parallel(double radius, double storativity, double transmissivity, const Rcpp::NumericVector& time, const Rcpp::NumericVector& flow_rate, int flow_time_interval, double flow_dimension=2);

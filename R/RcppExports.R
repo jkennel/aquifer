@@ -37,6 +37,28 @@ impulse_function <- function(u, flow_time_interval) {
 #'
 #' @export
 #'
+ogata_banks_ind <- function(D, v, C0, x, t) {
+    .Call('aquifer_ogata_banks_ind', PACKAGE = 'aquifer', D, v, C0, x, t)
+}
+
+#' @title
+#' Ogata-Banks solution for 1-D flow (vectorized).
+#'
+#' @description
+#' Ogata, A., Banks, R.B., 1961. A solution of the differential equation of
+#' longitudinal dispersion in porous media. U. S. Geol. Surv. Prof. Pap. 411-A.
+#' 1-D, infinite source, uniform flow, constant parameters, no decay, no retardation
+#'
+#' @param D diffusion coefficient
+#' @param v double velocity
+#' @param C0 double concentration
+#' @param x vector x position
+#' @param t vector time
+#'
+#' @return ogata banks solution each row is an x value and each column is a time
+#'
+#' @export
+#'
 ogata_banks <- function(D, v, C0, x, t) {
     .Call('aquifer_ogata_banks', PACKAGE = 'aquifer', D, v, C0, x, t)
 }
@@ -264,6 +286,26 @@ theis_u_time <- function(radius, storativity, transmissivity, time) {
 }
 
 #' @title
+#' grf_u_time
+#'
+#' @description
+#' Calculation of grf u
+#'
+#' @param radius distance to monitoring interval
+#' @param storativity aquifer storativity
+#' @param K aquifer hydraulic conductivity
+#' @param time prediction times
+#'
+#' @return u for well function
+#'
+#'
+#' @export
+#'
+grf_u_time <- function(radius, storativity, K, time) {
+    .Call('aquifer_grf_u_time', PACKAGE = 'aquifer', radius, storativity, K, time)
+}
+
+#' @title
 #' well_function_convolve
 #'
 #' @description
@@ -286,8 +328,10 @@ well_function_convolve <- function(flow_time_interval, coefs, u) {
 #' grf_time_parallel
 #'
 #' @description
-#' Parallel convolution of Theis well function and flow rates in the time domain.
-#' Time series needs to be regularily spaced.
+#' Parallel convolution of GRF well function and flow rates in the time domain.
+#' Time series needs to be regularily spaced and so are the flow rates.  Some
+#' performance gains can be achieved if the number of flow rate does not change
+#' for each time.
 #'
 #' @param radius distance to monitoring interval
 #' @param storativity aquifer storativity
@@ -296,7 +340,7 @@ well_function_convolve <- function(flow_time_interval, coefs, u) {
 #' @param time prediction times
 #' @param flow_rate well flow rates
 #' @param flow_time_interval time between flow rate measurements in samples
-#' @param flow_dimension time between flow rate measurements in samples
+#' @param flow_dimension flow dimension
 #'
 #' @return theis solution for multiple pumping scenario
 #'
@@ -330,5 +374,59 @@ grf_time_parallel <- function(radius, storativity, K, thickness, time, flow_rate
 #'
 hantush_time_parallel <- function(radius, storativity, transmissivity, leakage, time, flow_rate, flow_time_interval, n_terms) {
     .Call('aquifer_hantush_time_parallel', PACKAGE = 'aquifer', radius, storativity, transmissivity, leakage, time, flow_rate, flow_time_interval, n_terms)
+}
+
+#' @title
+#' grf
+#'
+#' @description
+#' Parallel convolution of GRF well function and flow rates in the time domain.
+#' Time series needs to be regularily spaced and so are the flow rates.  Some
+#' performance gains can be achieved if the number of flow rate does not change
+#' for each time.
+#'
+#' @param radius distance to monitoring interval
+#' @param storativity aquifer storativity
+#' @param transmissivity aquifer transmissivity
+#' @param leakage hantush leakage
+#' @param time prediction times
+#' @param flow_rate well flow rates
+#' @param flow_time_interval time between flow rate measurements in samples
+#' @param n_terms number of terms to use in Hantush solution.  More is more precise but slower.
+#'
+#' @return theis solution for multiple pumping scenario
+#'
+#'
+#' @export
+#'
+hantush <- function(radius, storativity, transmissivity, leakage, time, flow_rate, flow_rate_times, n_terms) {
+    .Call('aquifer_hantush', PACKAGE = 'aquifer', radius, storativity, transmissivity, leakage, time, flow_rate, flow_rate_times, n_terms)
+}
+
+#' @title
+#' grf
+#'
+#' @description
+#' Parallel convolution of GRF well function and flow rates in the time domain.
+#' Time series needs to be regularily spaced and so are the flow rates.  Some
+#' performance gains can be achieved if the number of flow rate does not change
+#' for each time.
+#'
+#' @param radius distance to monitoring interval
+#' @param storativity aquifer storativity
+#' @param K aquifer hydraulic conductivity
+#' @param thickness aquifer thickness
+#' @param time prediction times
+#' @param flow_rate well flow rates
+#' @param flow_rate_times times where flow rates change
+#' @param flow_dimension flow dimension
+#'
+#' @return theis solution for multiple pumping scenario
+#'
+#'
+#' @export
+#'
+grf <- function(radius, storativity, K, thickness, time, flow_rate, flow_rate_times, flow_dimension) {
+    .Call('aquifer_grf', PACKAGE = 'aquifer', radius, storativity, K, thickness, time, flow_rate, flow_rate_times, flow_dimension)
 }
 

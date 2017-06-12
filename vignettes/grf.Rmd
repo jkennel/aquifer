@@ -1,0 +1,174 @@
+---
+title: "Generalized radial flow model"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(aquifer)
+library(data.table)
+library(plotly)
+set.seed(1)
+```
+
+## Solution
+
+### Generalized radial flow model (Barker, 1988)
+
+This flow model handles flow dimensions between 1 (linear) and 3 (spherical). For the Theis solution a flow dimension of 2 (radial) can be used.  In addition, non-integral flow dimensions can also be used. The goal of these functions are to function with large datasets and calibration techniques.
+
+## Capabilities
+
+  - Irregularily spaced time series
+  - Parallel version for regularly spaced time series
+  - FFT version for large regularly spaced time series
+
+### Parameters
+
+```{r grfparameters, echo = TRUE}
+
+storativity = 1e-5
+radius = 20
+Kf = 1e-3
+thickness <- 1
+times <- 1:2000
+flow_rates <- abs(rnorm(10)) / 1000
+flow_rate_times <- 0:9 * 200
+flow_dimension <- 2
+
+```
+
+## Irregularly spaced time series
+
+There are a few ways for calculating the generalized radial flow model solution.  The first function is *grf* and is the most flexible but can be slow if there are many different flow regimes, however, it should generally be fast enough for a few thousand flow regimes and output times.  In addition, output times can be irregularly spaced, which can lead to more efficient results for long tests when output times do not require high temporal resolution.  It is the users' responsibility to make sure that units are appropriate.
+
+```{r grf, echo=TRUE}
+
+dd_grf <- grf(radius,
+    storativity, 
+    Kf, 
+    thickness,
+    times, 
+    flow_rates, 
+    flow_rate_times,
+    flow_dimension)
+
+```
+
+```{r grfplot, echo=FALSE}
+
+grf_df <- data.table(times = times, drawdown = dd_grf)
+grf_rates  <- data.table(times = flow_rate_times, rate = flow_rates)
+
+plot_ly(grf_df, x = ~times, y = ~drawdown, type = 'scatter', mode = 'lines', yaxis = 'y1', name = 'drawdown', width=700, height=300) %>%
+  add_trace(data = grf_rates, x = ~flow_rate_times, y = ~flow_rates, type = 'scatter', 
+            mode = 'lines', yaxis = 'y2', name = 'flow rate',
+            line = list(shape = "hv")) %>%
+  layout(title = 'Drawdown and flow rates',
+         xaxis = list(title = ""),
+         yaxis = list(side = 'left', title = 'Drawdown', showgrid = FALSE, zeroline = FALSE),
+         yaxis2 = list(side = 'right', overlaying = "y", title = 'Flow rates', showgrid = FALSE, zeroline = FALSE))
+
+
+```
+
+## Regularly spaced time series
+
+The following functions are designed for regularly spaced times series for both the flow rates and drawdown output times. To output the GRF solution at regularly spaced times given flow rates that are available at each corresponding time there are two possible methods to use *grf_time_parallel* and *grf_convolve*.  If the number of times is small *grf_time_parallel* may have a slight performance advantage, but for longer sets (>100,000 times) *grf_convolve* should be faster.  *grf_convolve* is based on an FFT and should be performant even with millions of time steps. The following provides two examples.
+
+```{r grfexamplegtp}
+
+flow_rates <- rep(flow_rates, each = 200)
+
+dd_grf_time_parallel <- grf_time_parallel(radius = radius,
+                                          storativity = storativity,
+                                          K = Kf,
+                                          thickness = thickness,
+                                          time = times,
+                                          flow_rate = flow_rates,
+                                          flow_time_interval = 1,
+                                          flow_dimension = flow_dimension)
+
+all.equal(dd_grf_time_parallel, dd_grf)
+```
+
+
+```{r grfexamplegc}
+dd_grf_convolve <- grf_convolve(radius = radius,
+                                storativity = storativity,
+                                K = Kf,
+                                thickness = thickness, 
+                                time = times, 
+                                flow_rate = flow_rates,
+                                flow_dimension = flow_dimension)
+
+all.equal(dd_grf_convolve, dd_grf)
+
+system.time(grf_convolve(radius = radius,
+                         storativity = storativity,
+                         K = Kf,
+                         thickness = thickness, 
+                         time = 1:1e6, 
+                         flow_rate = rep(1, 1e6),
+                         flow_dimension = flow_dimension))
+
+```
+
+If pumping rates change on regular intervals at a slower rate than the desired times, *grf_time_parallel* has an option to adjust the flow_time_interval.  This can lead to a significant speedup when you have times at a much faster rate than the pumping rate changes.  The following provides an example of this where times are every second and flow rates change every hour (3600 seconds).  The most extreme example of this would be when there is only one pumping regime (one rate for all times).
+
+
+```{r grfexamplegcfr}
+
+t = 1:(3600 * 20)
+
+Q = abs(rnorm(20)) / 1000
+system.time(
+
+dd_gtp_1 <- grf_time_parallel(radius = radius,
+                              storativity = storativity,
+                              K = Kf,
+                              thickness = thickness,
+                              time = t,
+                              flow_rate = Q,
+                              flow_time_interval = 3600,
+                              flow_dimension = 2)
+)
+
+Q = rep(Q, each = 3600)
+system.time(
+
+dd_gtp_2 <- grf_time_parallel(radius = radius,
+                              storativity = storativity,
+                              K = Kf,
+                              thickness = thickness,
+                              time = t,
+                              flow_rate = Q,
+                              flow_time_interval = 1,
+                              flow_dimension = 2)
+)
+all.equal(dd_gtp_1, dd_gtp_2)
+
+
+system.time(
+
+dd_gtp_3 <- grf_time_parallel(radius = radius,
+                              storativity = storativity,
+                              K = Kf,
+                              thickness = thickness,
+                              time = t,
+                              flow_rate = 0.8/1000,
+                              flow_time_interval = length(Q),
+                              flow_dimension = 2)
+)
+
+
+```
+
+
+## References
+
+Barker, J.A., 1988. A generalized radial flow model for hydraulic tests in fractured rock. Water Resour. Res. 24, 1796–1804.

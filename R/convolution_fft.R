@@ -2,14 +2,15 @@
 
 # ==============================================================================
 #' @title
-#' theis_convolve
+#' grf_convolve
 #'
 #' @description
-#' Implementation of Barker, 1988 Generalized Radial Flow model for line source/sink
+#' Implementation of Barker, 1988 Generalized Radial Flow model for line source/sink.  For each time given a flow_rate needs to be provided.
 #'
 #' @param radius distance to monitoring location
 #' @param storativity the storativity of the aquifer
-#' @param transmissivity the transmissivity of the aquifer
+#' @param K the hydraulic conductivity of the aquifer
+#' @param thickness the thickness
 #' @param time the time to output
 #' @param flow_rate vector of flow rates
 #' @param flow_dimension the barker flow dimension
@@ -17,29 +18,31 @@
 #' @return grf solution for multiple pumping periods
 #' @export
 #'
-theis_convolve <- function(radius,
-                           storativity,
-                           transmissivity,
-                           time,
-                           flow_rate,
-                           flow_dimension=2){
+grf_convolve <- function(radius,
+                         storativity,
+                         K,
+                         thickness,
+                         time,
+                         flow_rate,
+                         flow_dimension = 2){
 
-  v = 1 - flow_dimension/2
+  v = (flow_dimension / 2) - 1
 
-  coefs <- well_function_coefficient(flow_rate,  transmissivity)
+  #coefs <- well_function_coefficient(flow_rate,  transmissivity)
+  coefs <- grf_coefficient(flow_rate, radius, K, thickness, flow_dimension)
 
   # calculate the Well function
-  u <- theis_u_time(radius, storativity, transmissivity, time)
+  u <- grf_u_time(radius, storativity, K, time)
   u <- grf_parallel(u, v)
 
   # calculate the pulse
   u <- impulse_function(u, 1)
 
-  n_pad <- ceiling(length(u)/2)
+  n_pad <- ceiling(length(u) / 2)
   sub <- (2 * n_pad + 1):(2 * n_pad + length(u))
 
-  u <- Re(fftw::IFFT(fftw::FFT(c(rep(0.0,n_pad),coefs,rep(0.0,n_pad)))  *
-                       fftw::FFT(c(rep(0.0,n_pad),u,rep(0.0,n_pad)))))[sub]
+  u <- Re(fftw::IFFT(fftw::FFT(c(rep(0.0, n_pad), coefs, rep(0.0, n_pad)))  *
+                       fftw::FFT(c(rep(0.0, n_pad), u, rep(0.0,n_pad)))))[sub]
 
 }
 

@@ -22,12 +22,14 @@ grf_time_parallel(radius, storativity, K, thickness, time, flow_rate,
 
 \item{flow_time_interval}{time between flow rate measurements in samples}
 
-\item{flow_dimension}{time between flow rate measurements in samples}
+\item{flow_dimension}{flow dimension}
 }
 \value{
 theis solution for multiple pumping scenario
 }
 \description{
-Parallel convolution of Theis well function and flow rates in the time domain.
-Time series needs to be regularily spaced.
+Parallel convolution of GRF well function and flow rates in the time domain.
+Time series needs to be regularily spaced and so are the flow rates.  Some
+performance gains can be achieved if the number of flow rate does not change
+for each time.
 }

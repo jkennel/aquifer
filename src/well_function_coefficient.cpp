@@ -71,16 +71,16 @@ Rcpp::NumericVector grf_coefficient(Rcpp::NumericVector flow_rate,
 
   double v = 1 - flow_dimension/2;
 
-  if(flow_dimension == 2){
+  // if(flow_dimension == 2){
+  //
+  //   return well_function_coefficient(flow_rate, K * thickness);
+  //
+  // } else {
 
-    return well_function_coefficient(flow_rate, K * thickness);
-
-  } else {
-
-    return( flow_rate * pow(radius, (2 * v)) /
+    return( (flow_rate * pow(radius, (2 * v))) /
             (4 * pow(PI, (1 - v)) * K * pow(thickness, (3 - flow_dimension))));
 
-  }
+  // }
 }
 
 //==============================================================================
@@ -112,6 +112,35 @@ Rcpp::NumericVector theis_u_time(double radius,
   return out;
 }
 
+
+//==============================================================================
+//' @title
+//' grf_u_time
+//'
+//' @description
+//' Calculation of grf u
+//'
+//' @param radius distance to monitoring interval
+//' @param storativity aquifer storativity
+//' @param K aquifer hydraulic conductivity
+//' @param time prediction times
+//'
+//' @return u for well function
+//'
+//'
+//' @export
+//'
+// [[Rcpp::export]]
+Rcpp::NumericVector grf_u_time(double radius,
+                               double storativity,
+                               double K,
+                               const Rcpp::NumericVector& time) {
+
+  Rcpp::NumericVector out = (radius * radius * storativity) /
+    (4.0 * K * time);
+
+  return out;
+}
 
 // //==============================================================================
 // //' @title

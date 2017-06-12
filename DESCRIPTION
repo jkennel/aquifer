@@ -2,7 +2,9 @@ Package: aquifer
 Type: Package
 Title: Well solutions for aquifer tests
 Version: 0.0.1
-Author: Jonathan Kennel, Beth Parker
+Authors@R: c(
+    person("Jonathan", "Kennel", email="jkennel@uoguelph.ca", role = c("aut", "cre")),
+    person("Beth", "Parker", role="ths"))
 Maintainer: Jonathan Kennel <jkennel@uoguelph.ca>
 Description: The aquifer package provides well solutions for the analysis of
     hydraulic tests.

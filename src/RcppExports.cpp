@@ -18,9 +18,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// ogata_banks
-double ogata_banks(double D, double v, double C0, double x, double t);
-RcppExport SEXP aquifer_ogata_banks(SEXP DSEXP, SEXP vSEXP, SEXP C0SEXP, SEXP xSEXP, SEXP tSEXP) {
+// ogata_banks_ind
+double ogata_banks_ind(double D, double v, double C0, double x, double t);
+RcppExport SEXP aquifer_ogata_banks_ind(SEXP DSEXP, SEXP vSEXP, SEXP C0SEXP, SEXP xSEXP, SEXP tSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -29,6 +29,21 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type C0(C0SEXP);
     Rcpp::traits::input_parameter< double >::type x(xSEXP);
     Rcpp::traits::input_parameter< double >::type t(tSEXP);
+    rcpp_result_gen = Rcpp::wrap(ogata_banks_ind(D, v, C0, x, t));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ogata_banks
+arma::mat ogata_banks(double D, double v, double C0, arma::vec x, arma::rowvec t);
+RcppExport SEXP aquifer_ogata_banks(SEXP DSEXP, SEXP vSEXP, SEXP C0SEXP, SEXP xSEXP, SEXP tSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type D(DSEXP);
+    Rcpp::traits::input_parameter< double >::type v(vSEXP);
+    Rcpp::traits::input_parameter< double >::type C0(C0SEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::rowvec >::type t(tSEXP);
     rcpp_result_gen = Rcpp::wrap(ogata_banks(D, v, C0, x, t));
     return rcpp_result_gen;
 END_RCPP
@@ -183,6 +198,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// grf_u_time
+Rcpp::NumericVector grf_u_time(double radius, double storativity, double K, const Rcpp::NumericVector& time);
+RcppExport SEXP aquifer_grf_u_time(SEXP radiusSEXP, SEXP storativitySEXP, SEXP KSEXP, SEXP timeSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type radius(radiusSEXP);
+    Rcpp::traits::input_parameter< double >::type storativity(storativitySEXP);
+    Rcpp::traits::input_parameter< double >::type K(KSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type time(timeSEXP);
+    rcpp_result_gen = Rcpp::wrap(grf_u_time(radius, storativity, K, time));
+    return rcpp_result_gen;
+END_RCPP
+}
 // well_function_convolve
 Rcpp::NumericVector well_function_convolve(int flow_time_interval, const Rcpp::NumericVector& coefs, const Rcpp::NumericVector& u);
 RcppExport SEXP aquifer_well_function_convolve(SEXP flow_time_intervalSEXP, SEXP coefsSEXP, SEXP uSEXP) {
@@ -231,4 +260,70 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(hantush_time_parallel(radius, storativity, transmissivity, leakage, time, flow_rate, flow_time_interval, n_terms));
     return rcpp_result_gen;
 END_RCPP
+}
+// hantush
+Rcpp::NumericVector hantush(double radius, double storativity, double transmissivity, double leakage, const Rcpp::NumericVector& time, const Rcpp::NumericVector& flow_rate, const Rcpp::NumericVector& flow_rate_times, int n_terms);
+RcppExport SEXP aquifer_hantush(SEXP radiusSEXP, SEXP storativitySEXP, SEXP transmissivitySEXP, SEXP leakageSEXP, SEXP timeSEXP, SEXP flow_rateSEXP, SEXP flow_rate_timesSEXP, SEXP n_termsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type radius(radiusSEXP);
+    Rcpp::traits::input_parameter< double >::type storativity(storativitySEXP);
+    Rcpp::traits::input_parameter< double >::type transmissivity(transmissivitySEXP);
+    Rcpp::traits::input_parameter< double >::type leakage(leakageSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type time(timeSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type flow_rate(flow_rateSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type flow_rate_times(flow_rate_timesSEXP);
+    Rcpp::traits::input_parameter< int >::type n_terms(n_termsSEXP);
+    rcpp_result_gen = Rcpp::wrap(hantush(radius, storativity, transmissivity, leakage, time, flow_rate, flow_rate_times, n_terms));
+    return rcpp_result_gen;
+END_RCPP
+}
+// grf
+Rcpp::NumericVector grf(double radius, double storativity, double K, double thickness, const Rcpp::NumericVector& time, const Rcpp::NumericVector& flow_rate, const Rcpp::NumericVector& flow_rate_times, double flow_dimension);
+RcppExport SEXP aquifer_grf(SEXP radiusSEXP, SEXP storativitySEXP, SEXP KSEXP, SEXP thicknessSEXP, SEXP timeSEXP, SEXP flow_rateSEXP, SEXP flow_rate_timesSEXP, SEXP flow_dimensionSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type radius(radiusSEXP);
+    Rcpp::traits::input_parameter< double >::type storativity(storativitySEXP);
+    Rcpp::traits::input_parameter< double >::type K(KSEXP);
+    Rcpp::traits::input_parameter< double >::type thickness(thicknessSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type time(timeSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type flow_rate(flow_rateSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type flow_rate_times(flow_rate_timesSEXP);
+    Rcpp::traits::input_parameter< double >::type flow_dimension(flow_dimensionSEXP);
+    rcpp_result_gen = Rcpp::wrap(grf(radius, storativity, K, thickness, time, flow_rate, flow_rate_times, flow_dimension));
+    return rcpp_result_gen;
+END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"aquifer_impulse_function", (DL_FUNC) &aquifer_impulse_function, 2},
+    {"aquifer_ogata_banks_ind", (DL_FUNC) &aquifer_ogata_banks_ind, 5},
+    {"aquifer_ogata_banks", (DL_FUNC) &aquifer_ogata_banks, 5},
+    {"aquifer_bh_tgamma", (DL_FUNC) &aquifer_bh_tgamma, 2},
+    {"aquifer_bh_gamma_neg", (DL_FUNC) &aquifer_bh_gamma_neg, 2},
+    {"aquifer_gamma_der", (DL_FUNC) &aquifer_gamma_der, 2},
+    {"aquifer_exp_int_single", (DL_FUNC) &aquifer_exp_int_single, 2},
+    {"aquifer_grf_parallel", (DL_FUNC) &aquifer_grf_parallel, 2},
+    {"aquifer_bessel_k", (DL_FUNC) &aquifer_bessel_k, 1},
+    {"aquifer_hantush_well_single", (DL_FUNC) &aquifer_hantush_well_single, 3},
+    {"aquifer_hantush_well_parallel", (DL_FUNC) &aquifer_hantush_well_parallel, 3},
+    {"aquifer_well_function_coefficient", (DL_FUNC) &aquifer_well_function_coefficient, 2},
+    {"aquifer_hantush_epsilon", (DL_FUNC) &aquifer_hantush_epsilon, 2},
+    {"aquifer_grf_coefficient", (DL_FUNC) &aquifer_grf_coefficient, 5},
+    {"aquifer_theis_u_time", (DL_FUNC) &aquifer_theis_u_time, 4},
+    {"aquifer_grf_u_time", (DL_FUNC) &aquifer_grf_u_time, 4},
+    {"aquifer_well_function_convolve", (DL_FUNC) &aquifer_well_function_convolve, 3},
+    {"aquifer_grf_time_parallel", (DL_FUNC) &aquifer_grf_time_parallel, 8},
+    {"aquifer_hantush_time_parallel", (DL_FUNC) &aquifer_hantush_time_parallel, 8},
+    {"aquifer_hantush", (DL_FUNC) &aquifer_hantush, 8},
+    {"aquifer_grf", (DL_FUNC) &aquifer_grf, 8},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_aquifer(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }

@@ -1,0 +1,172 @@
+---
+title: "Hantush-Jacob leaky aquifer model"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(aquifer)
+library(microbenchmark)
+library(data.table)
+library(plotly)
+set.seed(1)
+```
+
+## Solution
+
+### Hantush-Jacob leaky aquifer (Hantush-Jacob, 1955)
+
+## Capabilities
+
+  - Irregularily spaced time series
+  - Parallel version for regularly spaced time series
+  - FFT version for large regularly spaced time series
+
+### Parameters
+
+```{r hantushparameters, echo = TRUE}
+
+storativity = 1e-5
+radius = 20
+transmissivity = 1e-3
+leakage <- 100
+times <- 1:2000
+flow_rates <- abs(rnorm(10)) / 1000
+flow_rate_times <- 0:9 * 200
+n_terms <- 20
+
+```
+## Irregularly spaced time series
+
+There are a few ways for calculating the generalized radial flow model solution.  The first method is the most flexible but can be slow if there are many different flow regimes, however, it should generally be fast enough for a few thousand flow regimes and output times.  In addition, output times can be irregularly spaced, which can lead to more efficient results for long tests when output times do not require high temporal resolution.
+
+
+```{r hantush}
+
+dd_hantush <- hantush(radius, 
+                      storativity, 
+                      transmissivity, 
+                      leakage, 
+                      times, 
+                      flow_rates,
+                      flow_rate_times,
+                      n_terms)
+
+dd_grf <- grf(radius,
+    storativity, 
+    transmissivity, 
+    1,
+    times, 
+    flow_rates, 
+    flow_rate_times,
+    2)
+```
+
+```{r hantushplot, echo=FALSE}
+
+hantush_df <- data.table(times = times, drawdown = dd_hantush)
+hantush_rates <- data.table(times = flow_rate_times, rate = flow_rates)
+
+plot_ly(hantush_df, x = ~times, y = ~drawdown, type = 'scatter', mode = 'lines', yaxis = 'y1', name = 'drawdown', width = 700, height = 300) %>%
+  add_trace(data = hantush_rates, x = ~flow_rate_times, y = ~flow_rates, type = 'scatter', 
+            mode = 'lines', yaxis = 'y2', name = 'flow rate',
+            line = list(shape = "hv")) %>%
+  layout(title = 'Drawdown and flow rates',
+         xaxis = list(title = ""),
+         yaxis = list(side = 'left', title = 'Drawdown', showgrid = FALSE, zeroline = FALSE),
+         yaxis2 = list(side = 'right', overlaying = "y", title = 'Flow rate', showgrid = FALSE, zeroline = FALSE))
+
+
+```
+
+## Regularly spaced time series
+
+The following functions are designed for regularly spaced times series for both the flow rates and drawdown output times. To output the GRF solution at regularly spaced times given flow rates that are available at each corresponding time there are two possible methods to use *hantush_time_parallel* and *hantush_convolve*.  If the number of times is small *hantush_time_parallel* may have a slight performance advantage, but for longer sets (>100000 times) *hantush_convolve* should be faster.  The following provides two examples.
+
+```{r hantushexamplehtp}
+flow_rates <- rep(flow_rates, each = 200)
+
+dd_htp <- hantush_time_parallel(radius = radius,
+                            storativity = storativity,
+                            transmissivity = transmissivity, 
+                            leakage = leakage,
+                            time = times,
+                            flow_rate = flow_rates,
+                            flow_time_interval = 1,
+                            n_terms = 20)
+all.equal(dd_hantush, dd_htp)
+
+```
+
+
+```{r hantushexamplehc}
+dd_hc <- hantush_convolve(radius = radius,
+                            storativity = storativity,
+                            transmissivity = transmissivity, 
+                            leakage = leakage,
+                            time = times,
+                            flow_rate = flow_rates,
+                            n_terms = 20)
+
+all.equal(dd_htp, dd_hc)
+```
+
+If pumping rates change on regular intervals at a slower rate than the desired times, *grf_time_parallel* has an option to adjust the flow_time_interval.  This can lead to a significant speedup when you have times at a much faster rate than the pumping rate changes.  The following provides an example of this where times are every second and flow rates change every hour (3600 seconds).  The most extreme example of this would be when there is only one pumping regime (one rate for all times).
+
+
+```{r grfexamplegcfr}
+
+t = 1:(3600 * 20)
+
+Q = abs(rnorm(20)) / 1000
+system.time(
+
+  dd_htp_1 <- hantush_time_parallel(radius = radius,
+                                storativity = storativity,
+                                transmissivity = transmissivity,
+                                leakage = leakage,
+                                time = t,
+                                flow_rate = Q,
+                                flow_time_interval = 3600,
+                                n_terms = 20)
+)
+
+Q = rep(Q, each = 3600)
+system.time(
+
+  dd_htp_2 <- hantush_time_parallel(radius = radius,
+                                storativity = storativity,
+                                transmissivity = transmissivity,
+                                leakage = leakage,
+                                time = t,
+                                flow_rate = Q,
+                                flow_time_interval = 1,
+                                n_terms = 20)
+)
+all.equal(dd_htp_1, dd_htp_2)
+
+
+system.time(
+
+  dd_htp_3 <- hantush_time_parallel(radius = radius,
+                                storativity = storativity,
+                                transmissivity = transmissivity,
+                                leakage = leakage,
+                                time = t,
+                                flow_rate = 0.8/1000,
+                                flow_time_interval = length(Q),
+                                n_terms = 20)
+)
+
+
+```
+
+
+
+## References
+
+Hantush, M.S. and C.E. Jacob, 1955. Non-steady radial flow in an infinite leaky aquifer, Am. Geophys. Union Trans., vol. 36, no. 1, pp. 95-100.
