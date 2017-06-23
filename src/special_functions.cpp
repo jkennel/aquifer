@@ -18,7 +18,16 @@
 //' @export
 // [[Rcpp::export]]
 double bh_tgamma(double u, double a) {
-  return boost::math::tgamma(a, u);
+
+  double ret;
+
+  if (std::isfinite(u)) {
+    ret = boost::math::tgamma(a, u);
+  }
+  else {
+    ret = 0.0;
+  }
+  return(ret);
 }
 
 
@@ -37,8 +46,19 @@ double bh_tgamma(double u, double a) {
 //' @export
 // [[Rcpp::export]]
 double bh_gamma_neg(double u, double a) {
-  return ((1 - boost::math::gamma_p(a+1, u)) * boost::math::tgamma(a+1) -
-          pow(u, a) * exp(-u)) / a ;
+
+  double ret;
+
+  if (std::isfinite(u)) {
+    ret = ((1 - boost::math::gamma_p(a+1, u)) * boost::math::tgamma(a+1) -
+      pow(u, a) * exp(-u)) / a;
+  }
+  else {
+    ret = 0.0;
+  }
+
+  return(ret);
+
 }
 
 //==============================================================================
@@ -56,7 +76,15 @@ double bh_gamma_neg(double u, double a) {
 //' @export
 // [[Rcpp::export]]
 double gamma_der(double u, double a) {
-  return pow( u, a-1 ) / exp(u);
+  double ret;
+
+  if (std::isfinite(u)) {
+    ret = pow( u, a-1 ) / exp(u);
+  }
+  else {
+    ret = 0.0;
+  }
+  return(ret);
 }
 
 
@@ -81,13 +109,13 @@ double gamma_der(double u, double a) {
 // [[Rcpp::export]]
 double exp_int_single(double u, double a) {
 
-  if(u == 0){
-    u = R_PosInf;
-  } else if(u > 40.0){
-    u = 0;
-  } else {
-    u = -boost::math::expint(-u);
-  }
+    if (u == 0){
+      u = R_PosInf;
+    } else if (u > 40.0){
+      u = 0;
+    } else {
+      u = -boost::math::expint(-u);
+    }
 
   return(u);
 }

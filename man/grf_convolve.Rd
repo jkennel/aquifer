@@ -5,7 +5,7 @@
 \title{grf_convolve}
 \usage{
 grf_convolve(radius, storativity, K, thickness, time, flow_rate,
-  flow_dimension = 2)
+  flow_dimension = 2, plan = NA)
 }
 \arguments{
 \item{radius}{distance to monitoring location}
@@ -21,6 +21,8 @@ grf_convolve(radius, storativity, K, thickness, time, flow_rate,
 \item{flow_rate}{vector of flow rates}
 
 \item{flow_dimension}{the barker flow dimension}
+
+\item{plan}{the FFTW plan, can be missing}
 }
 \value{
 grf solution for multiple pumping periods

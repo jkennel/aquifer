@@ -14,6 +14,7 @@
 #' @param time the time to output
 #' @param flow_rate vector of flow rates
 #' @param flow_dimension the barker flow dimension
+#' @param plan the FFTW plan, can be missing
 #'
 #' @return grf solution for multiple pumping periods
 #' @export
@@ -24,7 +25,8 @@ grf_convolve <- function(radius,
                          thickness,
                          time,
                          flow_rate,
-                         flow_dimension = 2){
+                         flow_dimension = 2,
+                         plan){
 
   v = (flow_dimension / 2) - 1
 
@@ -34,15 +36,20 @@ grf_convolve <- function(radius,
   # calculate the Well function
   u <- grf_u_time(radius, storativity, K, time)
   u <- grf_parallel(u, v)
-
   # calculate the pulse
   u <- impulse_function(u, 1)
-
   n_pad <- ceiling(length(u) / 2)
   sub <- (2 * n_pad + 1):(2 * n_pad + length(u))
 
-  u <- Re(fftw::IFFT(fftw::FFT(c(rep(0.0, n_pad), coefs, rep(0.0, n_pad)))  *
-                       fftw::FFT(c(rep(0.0, n_pad), u, rep(0.0,n_pad)))))[sub]
+  if(missing(plan)) {
+
+    u <- Re(fftw::IFFT(fftw::FFT(c(rep(0.0, n_pad), coefs, rep(0.0, n_pad)))  *
+                         fftw::FFT(c(rep(0.0, n_pad), u, rep(0.0,n_pad)))))[sub]
+  } else {
+    #print('plan')
+    u <- Re(fftw::IFFT(fftw::FFT(c(rep(0.0, n_pad), coefs, rep(0.0, n_pad)), plan = plan)  *
+                         fftw::FFT(c(rep(0.0, n_pad), u, rep(0.0,n_pad)), plan = plan), plan = plan))[sub]
+  }
 
 }
 
