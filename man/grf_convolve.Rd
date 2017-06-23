@@ -5,7 +5,7 @@
 \title{grf_convolve}
 \usage{
 grf_convolve(radius, storativity, K, thickness, time, flow_rate,
-  flow_dimension = 2, plan = NA)
+  flow_dimension = 2, plan)
 }
 \arguments{
 \item{radius}{distance to monitoring location}
