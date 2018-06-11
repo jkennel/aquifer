@@ -16,7 +16,7 @@
 #' @export
 #'
 impulse_function <- function(u, flow_time_interval) {
-    .Call('aquifer_impulse_function', PACKAGE = 'aquifer', u, flow_time_interval)
+    .Call('_aquifer_impulse_function', PACKAGE = 'aquifer', u, flow_time_interval)
 }
 
 #' @title
@@ -38,7 +38,7 @@ impulse_function <- function(u, flow_time_interval) {
 #' @export
 #'
 ogata_banks_ind <- function(D, v, C0, x, t) {
-    .Call('aquifer_ogata_banks_ind', PACKAGE = 'aquifer', D, v, C0, x, t)
+    .Call('_aquifer_ogata_banks_ind', PACKAGE = 'aquifer', D, v, C0, x, t)
 }
 
 #' @title
@@ -60,7 +60,7 @@ ogata_banks_ind <- function(D, v, C0, x, t) {
 #' @export
 #'
 ogata_banks <- function(D, v, C0, x, t) {
-    .Call('aquifer_ogata_banks', PACKAGE = 'aquifer', D, v, C0, x, t)
+    .Call('_aquifer_ogata_banks', PACKAGE = 'aquifer', D, v, C0, x, t)
 }
 
 #' @title
@@ -76,7 +76,7 @@ ogata_banks <- function(D, v, C0, x, t) {
 #'
 #' @export
 bh_tgamma <- function(u, a) {
-    .Call('aquifer_bh_tgamma', PACKAGE = 'aquifer', u, a)
+    .Call('_aquifer_bh_tgamma', PACKAGE = 'aquifer', u, a)
 }
 
 #' @title
@@ -92,7 +92,7 @@ bh_tgamma <- function(u, a) {
 #'
 #' @export
 bh_gamma_neg <- function(u, a) {
-    .Call('aquifer_bh_gamma_neg', PACKAGE = 'aquifer', u, a)
+    .Call('_aquifer_bh_gamma_neg', PACKAGE = 'aquifer', u, a)
 }
 
 #' @title
@@ -108,7 +108,7 @@ bh_gamma_neg <- function(u, a) {
 #'
 #' @export
 gamma_der <- function(u, a) {
-    .Call('aquifer_gamma_der', PACKAGE = 'aquifer', u, a)
+    .Call('_aquifer_gamma_der', PACKAGE = 'aquifer', u, a)
 }
 
 #' @title
@@ -129,7 +129,7 @@ gamma_der <- function(u, a) {
 #' @export
 #'
 exp_int_single <- function(u, a) {
-    .Call('aquifer_exp_int_single', PACKAGE = 'aquifer', u, a)
+    .Call('_aquifer_exp_int_single', PACKAGE = 'aquifer', u, a)
 }
 
 #' @title
@@ -147,7 +147,7 @@ exp_int_single <- function(u, a) {
 #' @export
 #'
 grf_parallel <- function(u, a) {
-    .Call('aquifer_grf_parallel', PACKAGE = 'aquifer', u, a)
+    .Call('_aquifer_grf_parallel', PACKAGE = 'aquifer', u, a)
 }
 
 #' @title
@@ -164,7 +164,7 @@ grf_parallel <- function(u, a) {
 #' @export
 #'
 bessel_k <- function(u) {
-    .Call('aquifer_bessel_k', PACKAGE = 'aquifer', u)
+    .Call('_aquifer_bessel_k', PACKAGE = 'aquifer', u)
 }
 
 #' @title
@@ -184,7 +184,7 @@ bessel_k <- function(u) {
 #' @export
 #'
 hantush_well_single <- function(u, b, n_terms) {
-    .Call('aquifer_hantush_well_single', PACKAGE = 'aquifer', u, b, n_terms)
+    .Call('_aquifer_hantush_well_single', PACKAGE = 'aquifer', u, b, n_terms)
 }
 
 #' @title
@@ -205,7 +205,7 @@ hantush_well_single <- function(u, b, n_terms) {
 #' @export
 #'
 hantush_well_parallel <- function(u, b, n_terms) {
-    .Call('aquifer_hantush_well_parallel', PACKAGE = 'aquifer', u, b, n_terms)
+    .Call('_aquifer_hantush_well_parallel', PACKAGE = 'aquifer', u, b, n_terms)
 }
 
 #' @title
@@ -223,7 +223,7 @@ hantush_well_parallel <- function(u, b, n_terms) {
 #' @export
 #'
 well_function_coefficient <- function(flow_rate, transmissivity) {
-    .Call('aquifer_well_function_coefficient', PACKAGE = 'aquifer', flow_rate, transmissivity)
+    .Call('_aquifer_well_function_coefficient', PACKAGE = 'aquifer', flow_rate, transmissivity)
 }
 
 #' @title
@@ -241,7 +241,7 @@ well_function_coefficient <- function(flow_rate, transmissivity) {
 #' @export
 #'
 hantush_epsilon <- function(radius, leakage) {
-    .Call('aquifer_hantush_epsilon', PACKAGE = 'aquifer', radius, leakage)
+    .Call('_aquifer_hantush_epsilon', PACKAGE = 'aquifer', radius, leakage)
 }
 
 #' @title
@@ -262,7 +262,7 @@ hantush_epsilon <- function(radius, leakage) {
 #' @export
 #'
 grf_coefficient <- function(flow_rate, radius, K, thickness, flow_dimension) {
-    .Call('aquifer_grf_coefficient', PACKAGE = 'aquifer', flow_rate, radius, K, thickness, flow_dimension)
+    .Call('_aquifer_grf_coefficient', PACKAGE = 'aquifer', flow_rate, radius, K, thickness, flow_dimension)
 }
 
 #' @title
@@ -282,7 +282,7 @@ grf_coefficient <- function(flow_rate, radius, K, thickness, flow_dimension) {
 #' @export
 #'
 theis_u_time <- function(radius, storativity, transmissivity, time) {
-    .Call('aquifer_theis_u_time', PACKAGE = 'aquifer', radius, storativity, transmissivity, time)
+    .Call('_aquifer_theis_u_time', PACKAGE = 'aquifer', radius, storativity, transmissivity, time)
 }
 
 #' @title
@@ -302,7 +302,7 @@ theis_u_time <- function(radius, storativity, transmissivity, time) {
 #' @export
 #'
 grf_u_time <- function(radius, storativity, K, time) {
-    .Call('aquifer_grf_u_time', PACKAGE = 'aquifer', radius, storativity, K, time)
+    .Call('_aquifer_grf_u_time', PACKAGE = 'aquifer', radius, storativity, K, time)
 }
 
 #' @title
@@ -321,7 +321,7 @@ grf_u_time <- function(radius, storativity, K, time) {
 #' @export
 #'
 well_function_convolve <- function(flow_time_interval, coefs, u) {
-    .Call('aquifer_well_function_convolve', PACKAGE = 'aquifer', flow_time_interval, coefs, u)
+    .Call('_aquifer_well_function_convolve', PACKAGE = 'aquifer', flow_time_interval, coefs, u)
 }
 
 #' @title
@@ -348,7 +348,7 @@ well_function_convolve <- function(flow_time_interval, coefs, u) {
 #' @export
 #'
 grf_time_parallel <- function(radius, storativity, K, thickness, time, flow_rate, flow_time_interval, flow_dimension) {
-    .Call('aquifer_grf_time_parallel', PACKAGE = 'aquifer', radius, storativity, K, thickness, time, flow_rate, flow_time_interval, flow_dimension)
+    .Call('_aquifer_grf_time_parallel', PACKAGE = 'aquifer', radius, storativity, K, thickness, time, flow_rate, flow_time_interval, flow_dimension)
 }
 
 #' @title
@@ -373,7 +373,7 @@ grf_time_parallel <- function(radius, storativity, K, thickness, time, flow_rate
 #' @export
 #'
 hantush_time_parallel <- function(radius, storativity, transmissivity, leakage, time, flow_rate, flow_time_interval, n_terms) {
-    .Call('aquifer_hantush_time_parallel', PACKAGE = 'aquifer', radius, storativity, transmissivity, leakage, time, flow_rate, flow_time_interval, n_terms)
+    .Call('_aquifer_hantush_time_parallel', PACKAGE = 'aquifer', radius, storativity, transmissivity, leakage, time, flow_rate, flow_time_interval, n_terms)
 }
 
 #' @title
@@ -400,7 +400,7 @@ hantush_time_parallel <- function(radius, storativity, transmissivity, leakage, 
 #' @export
 #'
 hantush <- function(radius, storativity, transmissivity, leakage, time, flow_rate, flow_rate_times, n_terms) {
-    .Call('aquifer_hantush', PACKAGE = 'aquifer', radius, storativity, transmissivity, leakage, time, flow_rate, flow_rate_times, n_terms)
+    .Call('_aquifer_hantush', PACKAGE = 'aquifer', radius, storativity, transmissivity, leakage, time, flow_rate, flow_rate_times, n_terms)
 }
 
 #' @title
@@ -427,6 +427,6 @@ hantush <- function(radius, storativity, transmissivity, leakage, time, flow_rat
 #' @export
 #'
 grf <- function(radius, storativity, K, thickness, time, flow_rate, flow_rate_times, flow_dimension) {
-    .Call('aquifer_grf', PACKAGE = 'aquifer', radius, storativity, K, thickness, time, flow_rate, flow_rate_times, flow_dimension)
+    .Call('_aquifer_grf', PACKAGE = 'aquifer', radius, storativity, K, thickness, time, flow_rate, flow_rate_times, flow_dimension)
 }
 

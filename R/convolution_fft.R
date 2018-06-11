@@ -15,7 +15,7 @@
 #' set.seed(37) 
 #' len <- 1000
 #' x <- cumsum(rnorm(len))
-#' y <- c(1,5,1)
+#' y <- c(1,1,1)
 #' 
 #' plot(1:len, x, type='l', pch = 20, xlim= c(470, 530), ylim = c(-5, 5))
 #' points(1:len, fftw_convolve(x, y), type = 'l', col='red')
@@ -28,6 +28,7 @@ fftw_convolve <- function(x, y, normalize = TRUE) {
     stop('The length of y should be less than or equal to x')
   }
   
+  # normalize filter to sum to 1
   if(normalize) {
     y <- y / sum(y)
   }
@@ -38,19 +39,22 @@ fftw_convolve <- function(x, y, normalize = TRUE) {
   
   sub <- c((n_x + x_pad):(n_x + 2 * x_pad), 1:(n_pad-1))
   
+  x_pad <- rep(0.0, x_pad)
+  y_pad <- rep(0.0, y_pad)
+  
   if(n_y %% 2 == 0){
-    warning('Values are shifted 0.5 units forward. Use odd number for better centering')
-    u <- Re(fftw::IFFT(fftw::FFT(c(rep(0.0, y_pad), y, rep(0.0, y_pad)))  *
-                         fftw::FFT(c(rep(0.0, x_pad), x, rep(0.0,x_pad)))))[sub]
-    u[1:(n_y / 2)] <- NA_real_  
-    u[(n_x - n_y / 2):(n_x)] <- NA_real_
+    
+    warning('Values are shifted 0.5 units forward. Use odd number filter for better centering')
+    u <- Re(fftw::IFFT(fftw::FFT(c(y_pad, y, y_pad))  *
+                         fftw::FFT(c(x_pad, x, x_pad))))[sub]
     
   } else {
-    u <- Re(fftw::IFFT(fftw::FFT(c(rep(0.0, y_pad-1), y, rep(0.0, y_pad)))  *
-                         fftw::FFT(c(rep(0.0, x_pad), x, rep(0.0, x_pad)))))[sub]
-    u[1:(n_y / 2)] <- NA_real_  
-    u[(n_x - n_y / 2):(n_x)] <- NA_real_
+    u <- Re(fftw::IFFT(fftw::FFT(c(y_pad[-1], y, y_pad))  *
+                       fftw::FFT(c(x_pad, x, x_pad))))[sub]
   }
+
+  u[1:(n_y / 2)] <- NA_real_  
+  u[(n_x - n_y / 2):(n_x)] <- NA_real_
   
   return(u)
 }
