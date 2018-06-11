@@ -298,8 +298,6 @@ BEGIN_RCPP
 END_RCPP
 }
 
-RcppExport SEXP _aquifer_cx_bessel_k(SEXP);
-
 static const R_CallMethodDef CallEntries[] = {
     {"_aquifer_impulse_function", (DL_FUNC) &_aquifer_impulse_function, 2},
     {"_aquifer_ogata_banks_ind", (DL_FUNC) &_aquifer_ogata_banks_ind, 5},
@@ -322,7 +320,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_aquifer_hantush_time_parallel", (DL_FUNC) &_aquifer_hantush_time_parallel, 8},
     {"_aquifer_hantush", (DL_FUNC) &_aquifer_hantush, 8},
     {"_aquifer_grf", (DL_FUNC) &_aquifer_grf, 8},
-    {"_aquifer_cx_bessel_k",               (DL_FUNC) &_aquifer_cx_bessel_k,               1},
     {NULL, NULL, 0}
 };
 
