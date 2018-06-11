@@ -1,3 +1,60 @@
+x <- cumsum(rnorm(4000000))
+y <- c(1:10000,40000000,10000:1)
+# ==============================================================================
+#' @title
+#' fftw_convolve
+#'
+#' @description
+#' Designed to be used for fast moving averages 
+#'
+#' @param x the data series
+#' @param y the filter
+#' @param normalize do you want the filter normalized
+#'
+#' @return grf solution for multiple pumping periods
+#' @export
+#'
+fftw_convolve <- function(x, y, normalize = TRUE) {
+  
+
+n_x <- length(x)
+n_y <- length(y)
+
+if(n_y > n_x) {
+  stop('The length of y should be less than or equal to x')
+}
+
+if(normalize) {
+  y <- y / sum(y)
+}
+
+x_pad <- ceiling(n_x / 2)
+y_pad <- x_pad + ceiling((n_x - n_y) / 2)
+
+
+sub <- c((n_x + x_pad):(n_x + 2 * x_pad), 1:(n_pad))
+
+if(n_y %% 2 == 0){
+  
+  u <- Re(fftw::IFFT(fftw::FFT(c(rep(0.0, y_pad), y, rep(0.0, y_pad)))  *
+                     fftw::FFT(c(rep(0.0, x_pad), x, rep(0.0,x_pad)))))[sub]
+  u[1:(n_y / 2)] <- NA_real_  
+  u[(n_x - n_y / 2):(n_x)] <- NA_real_
+  
+} else {
+  u <- Re(fftw::IFFT(fftw::FFT(c(rep(0.0, y_pad-1), y, rep(0.0, y_pad)))  *
+                       fftw::FFT(c(rep(0.0, x_pad), x, rep(0.0, x_pad)))))[sub]
+  u[1:(n_y / 2)] <- NA_real_  
+  u[(n_x - n_y / 2):(n_x)] <- NA_real_
+}
+
+return(u)
+}
+
+i <- 30000
+len <- 30000
+plot(1:len, x[(i+1):(i+len)], type='l', pch = 20)
+points(1:len, fftw_convolve(x,y)[(i+1):(i+len)], type = 'l', col='red')
 
 
 # ==============================================================================
