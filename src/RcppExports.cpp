@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // impulse_function
 Rcpp::NumericVector impulse_function(Rcpp::NumericVector& u, double flow_time_interval);
-RcppExport SEXP aquifer_impulse_function(SEXP uSEXP, SEXP flow_time_intervalSEXP) {
+RcppExport SEXP _aquifer_impulse_function(SEXP uSEXP, SEXP flow_time_intervalSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -20,7 +20,7 @@ END_RCPP
 }
 // ogata_banks_ind
 double ogata_banks_ind(double D, double v, double C0, double x, double t);
-RcppExport SEXP aquifer_ogata_banks_ind(SEXP DSEXP, SEXP vSEXP, SEXP C0SEXP, SEXP xSEXP, SEXP tSEXP) {
+RcppExport SEXP _aquifer_ogata_banks_ind(SEXP DSEXP, SEXP vSEXP, SEXP C0SEXP, SEXP xSEXP, SEXP tSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -35,7 +35,7 @@ END_RCPP
 }
 // ogata_banks
 arma::mat ogata_banks(double D, double v, double C0, arma::vec x, arma::rowvec t);
-RcppExport SEXP aquifer_ogata_banks(SEXP DSEXP, SEXP vSEXP, SEXP C0SEXP, SEXP xSEXP, SEXP tSEXP) {
+RcppExport SEXP _aquifer_ogata_banks(SEXP DSEXP, SEXP vSEXP, SEXP C0SEXP, SEXP xSEXP, SEXP tSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -50,7 +50,7 @@ END_RCPP
 }
 // bh_tgamma
 double bh_tgamma(double u, double a);
-RcppExport SEXP aquifer_bh_tgamma(SEXP uSEXP, SEXP aSEXP) {
+RcppExport SEXP _aquifer_bh_tgamma(SEXP uSEXP, SEXP aSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -62,7 +62,7 @@ END_RCPP
 }
 // bh_gamma_neg
 double bh_gamma_neg(double u, double a);
-RcppExport SEXP aquifer_bh_gamma_neg(SEXP uSEXP, SEXP aSEXP) {
+RcppExport SEXP _aquifer_bh_gamma_neg(SEXP uSEXP, SEXP aSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -74,7 +74,7 @@ END_RCPP
 }
 // gamma_der
 double gamma_der(double u, double a);
-RcppExport SEXP aquifer_gamma_der(SEXP uSEXP, SEXP aSEXP) {
+RcppExport SEXP _aquifer_gamma_der(SEXP uSEXP, SEXP aSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -86,7 +86,7 @@ END_RCPP
 }
 // exp_int_single
 double exp_int_single(double u, double a);
-RcppExport SEXP aquifer_exp_int_single(SEXP uSEXP, SEXP aSEXP) {
+RcppExport SEXP _aquifer_exp_int_single(SEXP uSEXP, SEXP aSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -98,7 +98,7 @@ END_RCPP
 }
 // grf_parallel
 Rcpp::NumericVector grf_parallel(Rcpp::NumericVector u, double a);
-RcppExport SEXP aquifer_grf_parallel(SEXP uSEXP, SEXP aSEXP) {
+RcppExport SEXP _aquifer_grf_parallel(SEXP uSEXP, SEXP aSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -110,7 +110,7 @@ END_RCPP
 }
 // bessel_k
 double bessel_k(double u);
-RcppExport SEXP aquifer_bessel_k(SEXP uSEXP) {
+RcppExport SEXP _aquifer_bessel_k(SEXP uSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -121,7 +121,7 @@ END_RCPP
 }
 // hantush_well_single
 double hantush_well_single(double u, double b, int n_terms);
-RcppExport SEXP aquifer_hantush_well_single(SEXP uSEXP, SEXP bSEXP, SEXP n_termsSEXP) {
+RcppExport SEXP _aquifer_hantush_well_single(SEXP uSEXP, SEXP bSEXP, SEXP n_termsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -134,7 +134,7 @@ END_RCPP
 }
 // hantush_well_parallel
 Rcpp::NumericVector hantush_well_parallel(Rcpp::NumericVector u, double b, int n_terms);
-RcppExport SEXP aquifer_hantush_well_parallel(SEXP uSEXP, SEXP bSEXP, SEXP n_termsSEXP) {
+RcppExport SEXP _aquifer_hantush_well_parallel(SEXP uSEXP, SEXP bSEXP, SEXP n_termsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -147,7 +147,7 @@ END_RCPP
 }
 // well_function_coefficient
 Rcpp::NumericVector well_function_coefficient(Rcpp::NumericVector flow_rate, double transmissivity);
-RcppExport SEXP aquifer_well_function_coefficient(SEXP flow_rateSEXP, SEXP transmissivitySEXP) {
+RcppExport SEXP _aquifer_well_function_coefficient(SEXP flow_rateSEXP, SEXP transmissivitySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -159,7 +159,7 @@ END_RCPP
 }
 // hantush_epsilon
 double hantush_epsilon(double radius, double leakage);
-RcppExport SEXP aquifer_hantush_epsilon(SEXP radiusSEXP, SEXP leakageSEXP) {
+RcppExport SEXP _aquifer_hantush_epsilon(SEXP radiusSEXP, SEXP leakageSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -171,7 +171,7 @@ END_RCPP
 }
 // grf_coefficient
 Rcpp::NumericVector grf_coefficient(Rcpp::NumericVector flow_rate, double radius, double K, double thickness, double flow_dimension);
-RcppExport SEXP aquifer_grf_coefficient(SEXP flow_rateSEXP, SEXP radiusSEXP, SEXP KSEXP, SEXP thicknessSEXP, SEXP flow_dimensionSEXP) {
+RcppExport SEXP _aquifer_grf_coefficient(SEXP flow_rateSEXP, SEXP radiusSEXP, SEXP KSEXP, SEXP thicknessSEXP, SEXP flow_dimensionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -186,7 +186,7 @@ END_RCPP
 }
 // theis_u_time
 Rcpp::NumericVector theis_u_time(double radius, double storativity, double transmissivity, const Rcpp::NumericVector& time);
-RcppExport SEXP aquifer_theis_u_time(SEXP radiusSEXP, SEXP storativitySEXP, SEXP transmissivitySEXP, SEXP timeSEXP) {
+RcppExport SEXP _aquifer_theis_u_time(SEXP radiusSEXP, SEXP storativitySEXP, SEXP transmissivitySEXP, SEXP timeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -200,7 +200,7 @@ END_RCPP
 }
 // grf_u_time
 Rcpp::NumericVector grf_u_time(double radius, double storativity, double K, const Rcpp::NumericVector& time);
-RcppExport SEXP aquifer_grf_u_time(SEXP radiusSEXP, SEXP storativitySEXP, SEXP KSEXP, SEXP timeSEXP) {
+RcppExport SEXP _aquifer_grf_u_time(SEXP radiusSEXP, SEXP storativitySEXP, SEXP KSEXP, SEXP timeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -214,7 +214,7 @@ END_RCPP
 }
 // well_function_convolve
 Rcpp::NumericVector well_function_convolve(int flow_time_interval, const Rcpp::NumericVector& coefs, const Rcpp::NumericVector& u);
-RcppExport SEXP aquifer_well_function_convolve(SEXP flow_time_intervalSEXP, SEXP coefsSEXP, SEXP uSEXP) {
+RcppExport SEXP _aquifer_well_function_convolve(SEXP flow_time_intervalSEXP, SEXP coefsSEXP, SEXP uSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -227,7 +227,7 @@ END_RCPP
 }
 // grf_time_parallel
 Rcpp::NumericVector grf_time_parallel(double radius, double storativity, double K, double thickness, const Rcpp::NumericVector& time, const Rcpp::NumericVector& flow_rate, int flow_time_interval, double flow_dimension);
-RcppExport SEXP aquifer_grf_time_parallel(SEXP radiusSEXP, SEXP storativitySEXP, SEXP KSEXP, SEXP thicknessSEXP, SEXP timeSEXP, SEXP flow_rateSEXP, SEXP flow_time_intervalSEXP, SEXP flow_dimensionSEXP) {
+RcppExport SEXP _aquifer_grf_time_parallel(SEXP radiusSEXP, SEXP storativitySEXP, SEXP KSEXP, SEXP thicknessSEXP, SEXP timeSEXP, SEXP flow_rateSEXP, SEXP flow_time_intervalSEXP, SEXP flow_dimensionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -245,7 +245,7 @@ END_RCPP
 }
 // hantush_time_parallel
 Rcpp::NumericVector hantush_time_parallel(double radius, double storativity, double transmissivity, double leakage, const Rcpp::NumericVector& time, const Rcpp::NumericVector& flow_rate, int flow_time_interval, int n_terms);
-RcppExport SEXP aquifer_hantush_time_parallel(SEXP radiusSEXP, SEXP storativitySEXP, SEXP transmissivitySEXP, SEXP leakageSEXP, SEXP timeSEXP, SEXP flow_rateSEXP, SEXP flow_time_intervalSEXP, SEXP n_termsSEXP) {
+RcppExport SEXP _aquifer_hantush_time_parallel(SEXP radiusSEXP, SEXP storativitySEXP, SEXP transmissivitySEXP, SEXP leakageSEXP, SEXP timeSEXP, SEXP flow_rateSEXP, SEXP flow_time_intervalSEXP, SEXP n_termsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -263,7 +263,7 @@ END_RCPP
 }
 // hantush
 Rcpp::NumericVector hantush(double radius, double storativity, double transmissivity, double leakage, const Rcpp::NumericVector& time, const Rcpp::NumericVector& flow_rate, const Rcpp::NumericVector& flow_rate_times, int n_terms);
-RcppExport SEXP aquifer_hantush(SEXP radiusSEXP, SEXP storativitySEXP, SEXP transmissivitySEXP, SEXP leakageSEXP, SEXP timeSEXP, SEXP flow_rateSEXP, SEXP flow_rate_timesSEXP, SEXP n_termsSEXP) {
+RcppExport SEXP _aquifer_hantush(SEXP radiusSEXP, SEXP storativitySEXP, SEXP transmissivitySEXP, SEXP leakageSEXP, SEXP timeSEXP, SEXP flow_rateSEXP, SEXP flow_rate_timesSEXP, SEXP n_termsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -281,7 +281,7 @@ END_RCPP
 }
 // grf
 Rcpp::NumericVector grf(double radius, double storativity, double K, double thickness, const Rcpp::NumericVector& time, const Rcpp::NumericVector& flow_rate, const Rcpp::NumericVector& flow_rate_times, double flow_dimension);
-RcppExport SEXP aquifer_grf(SEXP radiusSEXP, SEXP storativitySEXP, SEXP KSEXP, SEXP thicknessSEXP, SEXP timeSEXP, SEXP flow_rateSEXP, SEXP flow_rate_timesSEXP, SEXP flow_dimensionSEXP) {
+RcppExport SEXP _aquifer_grf(SEXP radiusSEXP, SEXP storativitySEXP, SEXP KSEXP, SEXP thicknessSEXP, SEXP timeSEXP, SEXP flow_rateSEXP, SEXP flow_rate_timesSEXP, SEXP flow_dimensionSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -298,28 +298,31 @@ BEGIN_RCPP
 END_RCPP
 }
 
+RcppExport SEXP _aquifer_cx_bessel_k(SEXP);
+
 static const R_CallMethodDef CallEntries[] = {
-    {"aquifer_impulse_function", (DL_FUNC) &aquifer_impulse_function, 2},
-    {"aquifer_ogata_banks_ind", (DL_FUNC) &aquifer_ogata_banks_ind, 5},
-    {"aquifer_ogata_banks", (DL_FUNC) &aquifer_ogata_banks, 5},
-    {"aquifer_bh_tgamma", (DL_FUNC) &aquifer_bh_tgamma, 2},
-    {"aquifer_bh_gamma_neg", (DL_FUNC) &aquifer_bh_gamma_neg, 2},
-    {"aquifer_gamma_der", (DL_FUNC) &aquifer_gamma_der, 2},
-    {"aquifer_exp_int_single", (DL_FUNC) &aquifer_exp_int_single, 2},
-    {"aquifer_grf_parallel", (DL_FUNC) &aquifer_grf_parallel, 2},
-    {"aquifer_bessel_k", (DL_FUNC) &aquifer_bessel_k, 1},
-    {"aquifer_hantush_well_single", (DL_FUNC) &aquifer_hantush_well_single, 3},
-    {"aquifer_hantush_well_parallel", (DL_FUNC) &aquifer_hantush_well_parallel, 3},
-    {"aquifer_well_function_coefficient", (DL_FUNC) &aquifer_well_function_coefficient, 2},
-    {"aquifer_hantush_epsilon", (DL_FUNC) &aquifer_hantush_epsilon, 2},
-    {"aquifer_grf_coefficient", (DL_FUNC) &aquifer_grf_coefficient, 5},
-    {"aquifer_theis_u_time", (DL_FUNC) &aquifer_theis_u_time, 4},
-    {"aquifer_grf_u_time", (DL_FUNC) &aquifer_grf_u_time, 4},
-    {"aquifer_well_function_convolve", (DL_FUNC) &aquifer_well_function_convolve, 3},
-    {"aquifer_grf_time_parallel", (DL_FUNC) &aquifer_grf_time_parallel, 8},
-    {"aquifer_hantush_time_parallel", (DL_FUNC) &aquifer_hantush_time_parallel, 8},
-    {"aquifer_hantush", (DL_FUNC) &aquifer_hantush, 8},
-    {"aquifer_grf", (DL_FUNC) &aquifer_grf, 8},
+    {"_aquifer_impulse_function", (DL_FUNC) &_aquifer_impulse_function, 2},
+    {"_aquifer_ogata_banks_ind", (DL_FUNC) &_aquifer_ogata_banks_ind, 5},
+    {"_aquifer_ogata_banks", (DL_FUNC) &_aquifer_ogata_banks, 5},
+    {"_aquifer_bh_tgamma", (DL_FUNC) &_aquifer_bh_tgamma, 2},
+    {"_aquifer_bh_gamma_neg", (DL_FUNC) &_aquifer_bh_gamma_neg, 2},
+    {"_aquifer_gamma_der", (DL_FUNC) &_aquifer_gamma_der, 2},
+    {"_aquifer_exp_int_single", (DL_FUNC) &_aquifer_exp_int_single, 2},
+    {"_aquifer_grf_parallel", (DL_FUNC) &_aquifer_grf_parallel, 2},
+    {"_aquifer_bessel_k", (DL_FUNC) &_aquifer_bessel_k, 1},
+    {"_aquifer_hantush_well_single", (DL_FUNC) &_aquifer_hantush_well_single, 3},
+    {"_aquifer_hantush_well_parallel", (DL_FUNC) &_aquifer_hantush_well_parallel, 3},
+    {"_aquifer_well_function_coefficient", (DL_FUNC) &_aquifer_well_function_coefficient, 2},
+    {"_aquifer_hantush_epsilon", (DL_FUNC) &_aquifer_hantush_epsilon, 2},
+    {"_aquifer_grf_coefficient", (DL_FUNC) &_aquifer_grf_coefficient, 5},
+    {"_aquifer_theis_u_time", (DL_FUNC) &_aquifer_theis_u_time, 4},
+    {"_aquifer_grf_u_time", (DL_FUNC) &_aquifer_grf_u_time, 4},
+    {"_aquifer_well_function_convolve", (DL_FUNC) &_aquifer_well_function_convolve, 3},
+    {"_aquifer_grf_time_parallel", (DL_FUNC) &_aquifer_grf_time_parallel, 8},
+    {"_aquifer_hantush_time_parallel", (DL_FUNC) &_aquifer_hantush_time_parallel, 8},
+    {"_aquifer_hantush", (DL_FUNC) &_aquifer_hantush, 8},
+    {"_aquifer_grf", (DL_FUNC) &_aquifer_grf, 8},
+    {"_aquifer_cx_bessel_k",               (DL_FUNC) &_aquifer_cx_bessel_k,               1},
     {NULL, NULL, 0}
 };
 

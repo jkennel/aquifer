@@ -215,6 +215,8 @@ double bessel_k(double u) {
   return(u);
 }
 
+
+
 //==============================================================================
 //' @title
 //' hantush_well_single
@@ -337,5 +339,4 @@ Rcpp::NumericVector hantush_well_parallel(Rcpp::NumericVector u,
 #                exp_int_parallel(1:n/n),
 #                times=5
 # )
-
 */
