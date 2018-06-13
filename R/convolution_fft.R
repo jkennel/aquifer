@@ -9,18 +9,18 @@
 #' @param y the filter
 #' @param normalize do you want the filter normalized
 #'
-#' @return grf solution for multiple pumping periods
+#' @return convolution of data series and filter
 #'
 #' @export
 #'
 #' @example
 #' set.seed(37)
-#' len <- 1000
+#' len <- 999
 #' x <- cumsum(rnorm(len))
-#' y <- c(1,1,1)
-#'
-#' plot(1:len, x, type='l', pch = 20, xlim= c(470, 530), ylim = c(-5, 5))
-#' points(1:len, fftw_convolve(x, y), type = 'l', col='red')
+#' y <- rep(1, 3)
+#' sub <- c(1, 50)
+#' plot(1:len, x, type='o', pch = 20, xlim = sub, cex = 0.4)
+#' points(1:len, fftw_convolve(x, y), type = 'o', col='red', pch = 20, cex = 0.4)
 fftw_convolve <- function(x, y, normalize = TRUE) {
 
   n_x <- length(x)
@@ -30,16 +30,35 @@ fftw_convolve <- function(x, y, normalize = TRUE) {
     stop('The length of y should be less than or equal to x')
   }
 
+  x_pad <- ceiling(n_x / 2)
+
+  if(n_y %% 2 == 1) {
+    start <- 1:(floor(n_y / 2))
+    end <- (n_x - floor(n_y / 2) + 1):(n_x)
+  } else{
+    start <- 1:(ceiling(n_y / 2))
+    end <- (n_x - ceiling(n_y / 2) + 1):(n_x)
+  }
+
+  if(n_x %% 2 == 1) {
+    sub <- c((n_x + x_pad+1):(n_x + 2 * x_pad+1), 1:(x_pad-2))
+  } else {
+    sub <- c((n_x + x_pad):(n_x + 2 * x_pad), 1:(x_pad-1))
+  }
+
+
+
+  if(n_x %% 2 == 1) {
+    x <- c(x, 0.0)
+    n_x <- length(x)
+  }
+
   # normalize filter to sum to 1
   if(normalize) {
     y <- y / sum(y)
   }
 
-  x_pad <- ceiling(n_x / 2)
   y_pad <- x_pad + ceiling((n_x - n_y) / 2)
-
-
-  sub <- c((n_x + x_pad):(n_x + 2 * x_pad), 1:(n_pad-1))
 
   x_pad <- rep(0.0, x_pad)
   y_pad <- rep(0.0, y_pad)
@@ -53,10 +72,12 @@ fftw_convolve <- function(x, y, normalize = TRUE) {
   } else {
     u <- Re(fftw::IFFT(fftw::FFT(c(y_pad[-1], y, y_pad))  *
                        fftw::FFT(c(x_pad, x, x_pad))))[sub]
+
+
   }
 
-  u[1:(n_y / 2)] <- NA_real_
-  u[(n_x - n_y / 2):(n_x)] <- NA_real_
+  u[start] <- NA_real_
+  u[end] <- NA_real_
 
   return(u)
 }

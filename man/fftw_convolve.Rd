@@ -14,7 +14,7 @@ fftw_convolve(x, y, normalize = TRUE)
 \item{normalize}{do you want the filter normalized}
 }
 \value{
-grf solution for multiple pumping periods
+convolution of data series and filter
 }
 \description{
 Designed to be used for fast moving averages
