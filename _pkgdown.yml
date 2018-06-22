@@ -5,4 +5,4 @@ template:
 navbar:
   right:
     - icon: fa-github
-      href: https://github.com/jkennel/baro
+      href: https://github.com/jkennel/aquifer
