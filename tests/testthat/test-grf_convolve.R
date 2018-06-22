@@ -16,4 +16,6 @@ test_that("grf_convolve works", {
   expect_equal(grf_convolve(radius, storativity, transmissivity, 1, time,
                               rep(0.00, 1000), flow_dimension),
                rep(0, 1000))
+
+
   })
