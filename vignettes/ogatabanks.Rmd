@@ -16,26 +16,85 @@ library(plotly)
 
 ## Solution
 
-Ogata-Banks 1961
+Ogata-Banks 1961 solution, Bear's 1972, 1979 solution for 1-D transport with retardation and decay.
 
 ## Capabilities
 
-Vectorized calculation of the Ogata-Banks solution.  Does not include retardation or degradation.
+Calculation of the Ogata-Banks solution for a grid of times and distances.
 
 ```{r ogata, echo = TRUE}
 D <- 2
 v <- 1
 C0 <- 1
+R <- 1
+decay <- 0
 x <- seq(1, 120, 2)
 t <- seq(0, 80, 10)
-
-ob <- data.table(ogata_banks(D, v, C0, x, t))
-setnames(ob, paste0('time_',t))
-ob[, x := seq(1, 120, 2)]
+ob <- ogata_banks(D, R, decay, v, C0, x, t)
 
 ```
 
 ```{r ogataplot, echo = FALSE, warning=FALSE, message=FALSE}
+ob <- data.table(ob)
+setnames(ob, paste0('time_',t))
+ob[, x := seq(1, 120, 2)]
+
+plot_ly(ob, x = ~x, y = ~time_20, type = 'scatter', mode = 'line', 
+        name = 20, width = 700, height = 300) %>% 
+  add_lines(x = ~x, y = ~time_40, mode = 'line', name = 40) %>%
+  add_lines(x = ~x, y = ~time_60, mode = 'line', name = 60) %>%
+  add_lines(x = ~x, y = ~time_80, mode = 'line', name = 80) %>%
+  layout(xaxis = list(title = "Distance from source"),
+         yaxis = list(side = 'left', title = 'Concentration'))
+
+```
+
+# With retardation
+
+```{r ogata_r, echo = TRUE}
+D <- 2
+v <- 1
+C0 <- 1
+R <- 2
+decay <- 0
+x <- seq(1, 120, 2)
+t <- seq(0, 80, 10)
+ob_r <- ogata_banks(D, R, decay, v, C0, x, t)
+```
+
+```{r ogataplot_r, echo = FALSE, warning=FALSE, message=FALSE}
+ob <- data.table(ob_r)
+setnames(ob, paste0('time_',t))
+ob[, x := seq(1, 120, 2)]
+
+plot_ly(ob, x = ~x, y = ~time_20, type = 'scatter', mode = 'line', 
+        name = 20, width = 700, height = 300) %>% 
+  add_lines(x = ~x, y = ~time_40, mode = 'line', name = 40) %>%
+  add_lines(x = ~x, y = ~time_60, mode = 'line', name = 60) %>%
+  add_lines(x = ~x, y = ~time_80, mode = 'line', name = 80) %>%
+  layout(xaxis = list(title = "Distance from source"),
+         yaxis = list(side = 'left', title = 'Concentration'))
+
+```
+
+# With retardation and decay
+
+
+```{r ogata_rd, echo = TRUE}
+D <- 2
+v <- 1
+C0 <- 1
+R <- 2
+decay <- 0.02
+x <- seq(1, 120, 2)
+t <- seq(0, 80, 10)
+ob_rd <- ogata_banks(D, R, decay, v, C0, x, t)
+```
+
+```{r ogataplot_rd, echo = FALSE, warning=FALSE, message=FALSE}
+ob <- data.table(ob_rd)
+setnames(ob, paste0('time_',t))
+ob[, x := seq(1, 120, 2)]
 
 plot_ly(ob, x = ~x, y = ~time_20, type = 'scatter', mode = 'line', 
         name = 20, width = 700, height = 300) %>% 
@@ -50,3 +109,9 @@ plot_ly(ob, x = ~x, y = ~time_20, type = 'scatter', mode = 'line',
 ## References
 
 Ogata, A. and Banks, R.B., 1961. A solution of the differential equation of longitudinal dispersion in porous media: fluid movement in earth materials. US Government Printing Office.
+
+Bear, J., 1972, Dynamics of fluids in porous media: New York,
+American Elsevier, 764 p.
+
+Bear, J., 1979, Hydraulics of ground water: New York, McGraw Hill,
+569 p. 

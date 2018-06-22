@@ -47,9 +47,15 @@ ogata_banks_ind <- function(D, v, C0, x, t) {
 #' @description
 #' Ogata, A., Banks, R.B., 1961. A solution of the differential equation of
 #' longitudinal dispersion in porous media. U. S. Geol. Surv. Prof. Pap. 411-A.
-#' 1-D, infinite source, uniform flow, constant parameters, no decay, no retardation
+#' 1-D, infinite source, uniform flow, constant parameters, decay, retardation
 #'
-#' @param D diffusion coefficient
+#' To have values match the excel sheet
+#' https://www.civil.uwaterloo.ca/jrcraig/pdf/OgataBanks.xlsm the decay
+#' coefficient needs to be scaled by the retardation coefficient.
+#'
+#' @param D doublediffusion coefficient
+#' @param R double retardation coefficient
+#' @param decay double decay coefficient
 #' @param v double velocity
 #' @param C0 double concentration
 #' @param x vector x position
@@ -59,8 +65,8 @@ ogata_banks_ind <- function(D, v, C0, x, t) {
 #'
 #' @export
 #'
-ogata_banks <- function(D, v, C0, x, t) {
-    .Call('_aquifer_ogata_banks', PACKAGE = 'aquifer', D, v, C0, x, t)
+ogata_banks <- function(D, R, decay, v, C0, x, t) {
+    .Call('_aquifer_ogata_banks', PACKAGE = 'aquifer', D, R, decay, v, C0, x, t)
 }
 
 #' @title

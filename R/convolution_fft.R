@@ -13,7 +13,7 @@
 #'
 #' @export
 #'
-#' @example
+#' @examples
 #' set.seed(37)
 #' len <- 999
 #' x <- cumsum(rnorm(len))
@@ -45,8 +45,6 @@ fftw_convolve <- function(x, y, normalize = TRUE) {
   } else {
     sub <- c((n_x + x_pad):(n_x + 2 * x_pad), 1:(x_pad-1))
   }
-
-
 
   if(n_x %% 2 == 1) {
     x <- c(x, 0.0)

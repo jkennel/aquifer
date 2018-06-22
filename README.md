@@ -2,6 +2,9 @@
 [![Build Status](https://travis-ci.org/jkennel/aquifer.svg?branch=master)](https://travis-ci.org/jkennel/aquifer)
 [![Coverage Status](https://img.shields.io/codecov/c/github/jkennel/aquifer/master.svg)](https://codecov.io/github/jkennel/aquifer?branch=master)
 
+This package provides tools for the analysis of different aquifer tests.  It is currently under development as part of the Dr. Beth Parker's research group. 
+
+
 # Installation #
 
 ```{r setup, include=FALSE}

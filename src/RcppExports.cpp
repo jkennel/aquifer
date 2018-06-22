@@ -34,17 +34,19 @@ BEGIN_RCPP
 END_RCPP
 }
 // ogata_banks
-arma::mat ogata_banks(double D, double v, double C0, arma::vec x, arma::rowvec t);
-RcppExport SEXP _aquifer_ogata_banks(SEXP DSEXP, SEXP vSEXP, SEXP C0SEXP, SEXP xSEXP, SEXP tSEXP) {
+arma::mat ogata_banks(double D, double R, double decay, double v, double C0, arma::vec x, arma::rowvec t);
+RcppExport SEXP _aquifer_ogata_banks(SEXP DSEXP, SEXP RSEXP, SEXP decaySEXP, SEXP vSEXP, SEXP C0SEXP, SEXP xSEXP, SEXP tSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< double >::type D(DSEXP);
+    Rcpp::traits::input_parameter< double >::type R(RSEXP);
+    Rcpp::traits::input_parameter< double >::type decay(decaySEXP);
     Rcpp::traits::input_parameter< double >::type v(vSEXP);
     Rcpp::traits::input_parameter< double >::type C0(C0SEXP);
     Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
     Rcpp::traits::input_parameter< arma::rowvec >::type t(tSEXP);
-    rcpp_result_gen = Rcpp::wrap(ogata_banks(D, v, C0, x, t));
+    rcpp_result_gen = Rcpp::wrap(ogata_banks(D, R, decay, v, C0, x, t));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -301,7 +303,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_aquifer_impulse_function", (DL_FUNC) &_aquifer_impulse_function, 2},
     {"_aquifer_ogata_banks_ind", (DL_FUNC) &_aquifer_ogata_banks_ind, 5},
-    {"_aquifer_ogata_banks", (DL_FUNC) &_aquifer_ogata_banks, 5},
+    {"_aquifer_ogata_banks", (DL_FUNC) &_aquifer_ogata_banks, 7},
     {"_aquifer_bh_tgamma", (DL_FUNC) &_aquifer_bh_tgamma, 2},
     {"_aquifer_bh_gamma_neg", (DL_FUNC) &_aquifer_bh_gamma_neg, 2},
     {"_aquifer_gamma_der", (DL_FUNC) &_aquifer_gamma_der, 2},

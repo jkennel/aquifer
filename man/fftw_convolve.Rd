@@ -19,3 +19,12 @@ convolution of data series and filter
 \description{
 Designed to be used for fast moving averages
 }
+\examples{
+set.seed(37)
+len <- 999
+x <- cumsum(rnorm(len))
+y <- rep(1, 3)
+sub <- c(1, 50)
+plot(1:len, x, type='o', pch = 20, xlim = sub, cex = 0.4)
+points(1:len, fftw_convolve(x, y), type = 'o', col='red', pch = 20, cex = 0.4)
+}

@@ -55,14 +55,6 @@ dd_hantush <- hantush(radius,
                       flow_rate_times,
                       n_terms)
 
-dd_grf <- grf(radius,
-    storativity, 
-    transmissivity, 
-    1,
-    times, 
-    flow_rates, 
-    flow_rate_times,
-    2)
 ```
 
 ```{r hantushplot, echo=FALSE}

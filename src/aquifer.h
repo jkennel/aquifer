@@ -49,6 +49,5 @@ Rcpp::NumericVector well_function_convolve(int flow_time_interval, const Rcpp::N
 // arma::colvec grf_freq(double radius,double storativity,double transmissivity,const Rcpp::NumericVector& time,const Rcpp::NumericVector& flow_rate, double flow_dimension=2);
 
 double ogata_banks_ind(double D, double v, double C0, double x, double t);
-arma::mat ogata_banks(double D, double v, double C0, arma::vec x, arma::rowvec t);
-
+arma::mat ogata_banks(double D, double R, double decay, double v, double C0, arma::vec x, arma::rowvec t);
 
