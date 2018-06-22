@@ -1,0 +1,6 @@
+---
+title: "aquifer package"
+---
+
+# Goal
+This package aims to provide tools useful for the analysis of groundwater systems.
