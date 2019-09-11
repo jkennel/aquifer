@@ -20,7 +20,15 @@
 using namespace RcppParallel;
 
 
-double bessel_k(double u);
+double bessel_k_single(double x, int nu);
+arma::cx_vec bessel_k_complex_parallel(arma::cx_vec x);
+arma::cx_vec bessel_k_complex(arma::cx_vec x);
+arma::cx_double bessel_k_complex_opt(const arma::cx_double x,arma::vec gamma_term_a,arma::vec gamma_term_b);
+arma::cx_double bessel_k_complex_single(arma::cx_double x);
+arma::cx_double bessel_i_complex(arma::cx_double x, double v);
+arma::cx_double bessel_i_complex_new(arma::cx_double x,double v, arma::vec gamma_term);
+double bessel_i_gamma_term(double x, double v);
+
 
 double bh_gamma_neg(double u, double a);
 double bh_tgamma(double u, double a);
@@ -29,6 +37,7 @@ double exp_int_single(double u, double a=0);
 
 Rcpp::NumericVector grf_coefficient(Rcpp::NumericVector flow_rate, double radius, double K, double thickness, double flow_dimension);
 Rcpp::NumericVector grf_parallel( Rcpp::NumericVector u,double a);
+Rcpp::NumericMatrix bessel_k_parallel( Rcpp::NumericMatrix x, int nu);
 
 Rcpp::NumericVector impulse_function(Rcpp::NumericVector& u, double flow_time_interval=1.0);
 

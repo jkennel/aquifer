@@ -4,7 +4,7 @@
 \alias{fftw_convolve}
 \title{fftw_convolve}
 \usage{
-fftw_convolve(x, y, normalize = TRUE)
+fftw_convolve(x, y, normalize = TRUE, align = "center")
 }
 \arguments{
 \item{x}{the data series}
@@ -12,12 +12,14 @@ fftw_convolve(x, y, normalize = TRUE)
 \item{y}{the filter}
 
 \item{normalize}{do you want the filter normalized}
+
+\item{align}{what alignment}
 }
 \value{
 convolution of data series and filter
 }
 \description{
-Designed to be used for fast moving averages
+Designed to be used for fast centered moving averages
 }
 \examples{
 set.seed(37)

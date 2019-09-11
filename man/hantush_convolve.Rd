@@ -4,8 +4,8 @@
 \alias{hantush_convolve}
 \title{hantush_convolve}
 \usage{
-hantush_convolve(radius, storativity, transmissivity, leakage, time, flow_rate,
-  n_terms = 10)
+hantush_convolve(radius, storativity, transmissivity, leakage, time,
+  flow_rate, n_terms = 10)
 }
 \arguments{
 \item{radius}{distance to monitoring location}

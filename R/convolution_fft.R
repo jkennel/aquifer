@@ -3,11 +3,12 @@
 #' fftw_convolve
 #'
 #' @description
-#' Designed to be used for fast moving averages
+#' Designed to be used for fast centered moving averages
 #'
 #' @param x the data series
 #' @param y the filter
 #' @param normalize do you want the filter normalized
+#' @param align what alignment
 #'
 #' @return convolution of data series and filter
 #'
@@ -21,34 +22,31 @@
 #' sub <- c(1, 50)
 #' plot(1:len, x, type='o', pch = 20, xlim = sub, cex = 0.4)
 #' points(1:len, fftw_convolve(x, y), type = 'o', col='red', pch = 20, cex = 0.4)
-fftw_convolve <- function(x, y, normalize = TRUE) {
+fftw_convolve <- function(x, y, normalize = TRUE, align = 'center') {
 
-  n_x <- length(x)
-  n_y <- length(y)
+  n_x_in <- length(x)
+  n_y    <- length(y)
 
-  if(n_y > n_x) {
+  y <- rev(y)
+
+  if(n_y > n_x_in) {
     stop('The length of y should be less than or equal to x')
   }
 
-  x_pad <- ceiling(n_x / 2)
+  # set NA indices
+  start <- 1:(ceiling(n_y / 2) - 1)
+  end   <- (n_x_in - floor(n_y / 2) + 1):(n_x_in)
 
-  if(n_y %% 2 == 1) {
-    start <- 1:(floor(n_y / 2))
-    end <- (n_x - floor(n_y / 2) + 1):(n_x)
-  } else{
-    start <- 1:(ceiling(n_y / 2))
-    end <- (n_x - ceiling(n_y / 2) + 1):(n_x)
-  }
 
-  if(n_x %% 2 == 1) {
-    sub <- c((n_x + x_pad+1):(n_x + 2 * x_pad+1), 1:(x_pad-2))
+  if(n_x_in %% 2 == 1) {
+    x     <- c(x, 0.0)
+    n_x   <- length(x)
+    x_pad <- n_x / 2
+    sub   <- c((n_x + x_pad + 1):(n_x + 2 * x_pad), 1:(x_pad-1))
   } else {
-    sub <- c((n_x + x_pad):(n_x + 2 * x_pad), 1:(x_pad-1))
-  }
-
-  if(n_x %% 2 == 1) {
-    x <- c(x, 0.0)
-    n_x <- length(x)
+    n_x   <- n_x_in
+    x_pad <- n_x / 2
+    sub   <- c((n_x + x_pad + 1):(n_x + 2 * x_pad), 1:(x_pad))
   }
 
   # normalize filter to sum to 1
@@ -68,16 +66,22 @@ fftw_convolve <- function(x, y, normalize = TRUE) {
                          fftw::FFT(c(x_pad, x, x_pad))))[sub]
 
   } else {
-    u <- Re(fftw::IFFT(fftw::FFT(c(y_pad[-1], y, y_pad))  *
+    u <- Re(fftw::IFFT(fftw::FFT(c(y_pad, y, y_pad[-1]))  *
                        fftw::FFT(c(x_pad, x, x_pad))))[sub]
-
 
   }
 
-  u[start] <- NA_real_
-  u[end] <- NA_real_
 
-  return(u[1:max(end)])
+  u[start] <- NA_real_
+  u[end]   <- NA_real_
+
+  if (align == 'right') {
+    u <- data.table::shift(u, n = length(end), type = 'lag')
+  } else if (align == 'left') {
+    u <- data.table::shift(u, n = length(start), type = 'lead')
+  }
+
+  return(u)
 }
 
 
@@ -168,5 +172,5 @@ hantush_convolve <- function(radius,
   sub <- (2 * n_pad + 1):(2 * n_pad + length(u))
 
   u <- Re(fftw::IFFT(fftw::FFT(c(rep(0.0,n_pad),coefs,rep(0.0,n_pad)))  *
-                       fftw::FFT(c(rep(0.0,n_pad),u,rep(0.0,n_pad)))))[sub]
+                     fftw::FFT(c(rep(0.0,n_pad),u,rep(0.0,n_pad)))))[sub]
 }

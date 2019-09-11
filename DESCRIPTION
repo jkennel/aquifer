@@ -11,18 +11,20 @@ Description: The aquifer package provides well solutions for the analysis of
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Depends:
 Imports:
     Rcpp,
     RcppParallel,
-    fftw
+    fftw,
+    data.table,
+    Bessel
 LinkingTo: Rcpp, RcppParallel, RcppArmadillo, BH
-RoxygenNote: 6.0.1
-Suggests: testthat,
+RoxygenNote: 6.1.1
+Suggests: 
+    testthat (>= 2.1.0),
     covr,
-    knitr, 
+    knitr,
     rmarkdown,
     plotly,
-    data.table,
+    data.table
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)

@@ -40,7 +40,7 @@ Rcpp::NumericVector well_function_coefficient(Rcpp::NumericVector flow_rate, dou
 // [[Rcpp::export]]
 double hantush_epsilon(double radius, double leakage){
 
-  return((radius*radius) / (4*leakage*leakage));
+  return((radius * radius) / (4 * leakage * leakage));
 
 }
 
@@ -69,7 +69,7 @@ Rcpp::NumericVector grf_coefficient(Rcpp::NumericVector flow_rate,
                                     double thickness,
                                     double flow_dimension){
 
-  double v = 1 - flow_dimension/2;
+  double v = 1 - flow_dimension / 2;
 
   // if(flow_dimension == 2){
   //

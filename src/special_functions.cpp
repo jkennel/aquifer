@@ -1,7 +1,324 @@
 #include "aquifer.h"
 
-
+#include <boost/foreach.hpp>
+#define foreach BOOST_FOREACH
 // Barker Generalized Radial Flow ----------------------------------------------
+
+
+//==============================================================================
+//' @title
+//' bessel_k_single
+//'
+//' @description
+//' boost function for the Bessel function
+//'
+//' @param x value for bessel function
+//' @param nu order
+//'
+//' @return result of the bessel function
+//'
+//'
+//' @export
+//'
+// [[Rcpp::export]]
+double bessel_k_single(double x, int nu) {
+
+  return(boost::math::cyl_bessel_k(nu, x));
+
+}
+
+
+
+//' @title
+//' bessel_i_gamma_term
+//'
+//' @description
+//' Modified Bessel function of first kind order 1
+//'
+//' @param x \code{numeric} value to evaluate
+//' @param v \code{numeric} value to evaluate
+//'
+//' @return bessel function result
+//'
+//'
+//' @export
+// [[Rcpp::export]]
+double bessel_i_gamma_term(double jj, double v) {
+  return(1.0 / (boost::math::tgamma((double)jj + 1.0) * boost::math::tgamma(v + 1.0 + (double)jj)));
+}
+
+//' @title
+//' bessel_i_complex
+//'
+//' @description
+//' Modified Bessel function of first kind order 1
+//'
+//' @param x \code{numeric} value to evaluate
+//' @param v \code{numeric} value to evaluate
+//'
+//' @return bessel function result
+//'
+//'
+//' @export
+// [[Rcpp::export]]
+arma::cx_double bessel_i_complex_new(arma::cx_double x,
+                                     double v,
+                                     arma::vec gamma_term) {
+
+  arma::cx_double ret = arma::cx_double(0.0, 0.0);
+
+  arma::cx_double t1 = pow(x / 2.0, v);
+
+  for (int kk = 0; kk < gamma_term.n_elem; kk++) {
+
+    ret = ret + t1 * gamma_term[kk] *
+      pow((x / 2.0), (2.0 * (double)kk));
+
+  }
+
+  return ret;
+}
+
+//' @title
+//' bessel_k_complex for complex values
+//'
+//' @description
+//' Modified Bessel function of second kind order 0
+//'
+//' @param x \code{numeric} value to evaluate
+//'
+//' @return bessel function result
+//'
+//'
+//' @export
+// [[Rcpp::export]]
+arma::cx_double bessel_k_complex_opt(const arma::cx_double x,
+                                     arma::vec gamma_term_a,
+                                     arma::vec gamma_term_b) {
+
+  double v = 1e-8;
+
+  arma::cx_double result;
+
+  result = M_PI_2 * (bessel_i_complex_new(x, -v, gamma_term_b) -
+            bessel_i_complex_new(x, v, gamma_term_a)) /
+            sin(v * M_PI);
+
+  return result;
+
+}
+
+
+
+
+
+
+
+
+//' @title
+//' bessel_i_complex
+//'
+//' @description
+//' Modified Bessel function of first kind order 1
+//'
+//' @param x \code{numeric} value to evaluate
+//' @param v \code{numeric} value to evaluate
+//'
+//' @return bessel function result
+//'
+//'
+//' @export
+// [[Rcpp::export]]
+arma::cx_double bessel_i_complex(arma::cx_double x, double v) {
+
+  arma::cx_double ret = arma::cx_double(0.0, 0.0);
+
+  arma::cx_double t1 = pow(x / 2.0, v);
+
+  for (int k = 0; k < 13; k++) {
+    // Rcpp::Rcout << "The value" << (boost::math::tgamma((double)k + 1.0) * boost::math::tgamma(v + 1.0 + (double)k)) << std::endl;
+
+    ret = ret + t1 * 1.0 / (boost::math::tgamma((double)k + 1.0) * boost::math::tgamma(v + 1.0 + (double)k)) *
+      pow((x / 2.0), (2.0 * (double)k));
+  }
+
+
+  return ret;
+}
+
+
+
+
+
+
+
+//' @title
+//' bessel_k_complex for complex values
+//'
+//' @description
+//' Modified Bessel function of second kind order 0
+//'
+//' @param x \code{numeric} value to evaluate
+//'
+//' @return bessel function result
+//'
+//'
+//' @export
+// [[Rcpp::export]]
+arma::cx_rowvec bessel_k_complex(const arma::cx_rowvec &x) {
+
+  double v = 1e-8;
+  double denom = sin(v * M_PI) / (M_PI_2) ;
+
+  int n = x.n_elem;
+  arma::cx_rowvec result(n);
+
+  int n_terms = 13;
+  arma::rowvec gamma_term_a(n_terms);
+  arma::rowvec gamma_term_b(n_terms);
+
+  for (int j = 0; j < n_terms; j++) {
+    gamma_term_a(j) = bessel_i_gamma_term(j, v);
+    gamma_term_b(j) = bessel_i_gamma_term(j, -v);
+  }
+
+  for (int k = 0; k < n; k++) {
+    result[k]  = (bessel_i_complex_new(x[k], -v, gamma_term_b) - bessel_i_complex_new(x[k], v, gamma_term_a)) / denom;
+    //result[k] = (bessel_i_complex(x[k], -v) - bessel_i_complex(x[k], v)) / denom;
+
+    // Rcpp::Rcout << "The value 1 " << result[k] << std::endl;
+    // Rcpp::Rcout << "The value 2 " << result2[k] << std::endl;
+  }
+  return result;
+
+}
+
+//' @title
+//' bessel_k_complex_single for complex values
+//'
+//' @description
+//' Modified Bessel function of second kind order 0
+//'
+//' @param x \code{numeric} value to evaluate
+//'
+//' @return bessel function result
+//'
+//'
+//' @export
+// [[Rcpp::export]]
+arma::cx_double bessel_k_complex_single(arma::cx_double x) {
+
+  double v = 1e-8;
+
+  return (M_PI_2) * (bessel_i_complex(x,-v) - bessel_i_complex(x, v)) /
+    sin(v * M_PI);
+
+}
+
+
+
+//==============================================================================
+struct bessel_worker : public Worker
+{
+  // source vector
+
+  const RMatrix<double> input;
+
+  RMatrix<double> output;
+
+  int nu;
+
+  bessel_worker(const Rcpp::NumericMatrix input,
+                Rcpp::NumericMatrix output,
+                int nu)
+    : input(input), output(output), nu(nu) {}
+
+  // calculate the exponential integral
+  void operator()(std::size_t begin_row, std::size_t end_row) {
+    for (std::size_t i = begin_row; i < end_row; i++) {
+      output[i] = bessel_k_single(input[i], nu);
+    }
+  }
+
+
+};
+
+//==============================================================================
+struct bessel_k0_complex_worker : public Worker
+{
+  // source vector
+
+  const arma::cx_vec input;
+
+  arma::cx_vec output;
+
+  bessel_k0_complex_worker(const arma::cx_vec input,
+                arma::cx_vec output)
+    : input(input), output(output) {}
+
+  // calculate the exponential integral
+  void operator()(std::size_t begin_row, std::size_t end_row) {
+    for (std::size_t i = begin_row; i < end_row; i++) {
+      output[i] = bessel_k_complex_single(input[i]);
+    }
+  }
+
+
+};
+
+//==============================================================================
+//' @title
+//' bessel_k_parallel
+//'
+//' @description
+//' parallel boost function for the Bessel function
+//'
+//' @param x value for bessel function
+//' @param nu order
+//'
+//' @return bessel k
+//'
+//'
+//' @export
+//'
+// [[Rcpp::export]]
+Rcpp::NumericMatrix bessel_k_parallel(Rcpp::NumericMatrix x, int nu) {
+
+  Rcpp::NumericMatrix output(x.nrow(), x.ncol());
+
+  bessel_worker besselkp(x, output, nu);
+
+  RcppParallel::parallelFor(0, x.length(), besselkp);
+
+  return(output);
+}
+
+//==============================================================================
+//' @title
+//' bessel_k_complex_parallel
+//'
+//' @description
+//' parallel boost function for the Bessel function
+//'
+//' @param x value for bessel function
+//'
+//' @return bessel k
+//'
+//'
+//' @export
+//'
+// [[Rcpp::export]]
+arma::cx_vec bessel_k_complex_parallel(arma::cx_vec x) {
+
+  arma::cx_vec output(x.n_rows, x.n_cols);
+
+  bessel_k0_complex_worker besselkp(x, output);
+
+  RcppParallel::parallelFor(0, x.n_elem, besselkp);
+
+  return(output);
+}
+
 
 //==============================================================================
 //' @title
@@ -193,27 +510,7 @@ Rcpp::NumericVector grf_parallel(Rcpp::NumericVector u, double a) {
 // Hunt, B., 1977. Calculation of the leaky aquifer function. J. Hydrol., 33:179--183
 
 
-//==============================================================================
-//' @title
-//' bessel_k
-//'
-//' @description
-//' boost function for the Bessel function
-//'
-//' @param u value for bessel function
-//'
-//' @return result of the bessel function
-//'
-//'
-//' @export
-//'
-// [[Rcpp::export]]
-double bessel_k(double u) {
 
-  u = boost::math::cyl_bessel_k(0, u);
-
-  return(u);
-}
 
 
 
@@ -248,7 +545,7 @@ double hantush_well_single(double u, double b, int n_terms){
       out += en * (pow(-u, i) / boost::math::factorial<double>(i));
       en = (1.0/(i+1.0)) * (exp(-b_div_u) - b_div_u * en);
     }
-    out = 2*bessel_k(2.0 * sqrt(b)) - out;
+    out = 2*bessel_k_single(2.0 * sqrt(b), 0) - out;
 
   } else {
 
@@ -332,6 +629,18 @@ Rcpp::NumericVector hantush_well_parallel(Rcpp::NumericVector u,
 
 
 /*** R
+library(microbenchmark)
+library(Bessel)
+x <- matrix(rep(1, 100000), ncol =10)
+x <- complex(real= rnorm(100), imaginary = rnorm(100))
+microbenchmark(
+  bessel_k_complex(x),
+  BesselK(x, 0),
+  times = 10
+)
+
+
+
 
 # library(microbenchmark)
 # n <- 1e6

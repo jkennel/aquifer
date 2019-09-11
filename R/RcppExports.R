@@ -70,6 +70,285 @@ ogata_banks <- function(D, R, decay, v, C0, x, t) {
 }
 
 #' @title
+#' rojstaczer
+#'
+#' @description
+#' Modified Bessel function of second kind order 0
+#'
+#' @param frequency
+#' @param radius_well
+#' @param transmissivity
+#' @param storage_confining
+#' @param storage_aquifer
+#' @param diffusivity_confining
+#' @param diffusivity_vadose
+#' @param thickness_confining
+#' @param thickness_vadose
+#' @param be
+#' @param attenuations
+#'
+#' @return bessel function result
+#'
+#'
+#' @export
+rojstaczer <- function(frequency, radius_well, transmissivity, storage_confining, storage_aquifer, diffusivity_confining, diffusivity_vadose, thickness_confining, thickness_vadose, loading_efficiency, attenuation, gamma_term_a, gamma_term_b) {
+    .Call('_aquifer_rojstaczer', PACKAGE = 'aquifer', frequency, radius_well, transmissivity, storage_confining, storage_aquifer, diffusivity_confining, diffusivity_vadose, thickness_confining, thickness_vadose, loading_efficiency, attenuation, gamma_term_a, gamma_term_b)
+}
+
+#' @title
+#' rojstaczer_parallel
+#'
+#' @description
+#' Modified Bessel function of second kind order 0
+#'
+#' @param frequency
+#' @param radius_well
+#' @param transmissivity
+#' @param storage_confining
+#' @param storage_aquifer
+#' @param diffusivity_confining
+#' @param diffusivity_vadose
+#' @param thickness_confining
+#' @param thickness_vadose
+#' @param loading_efficiency
+#' @param attenuations
+#' @param gamma_term_a
+#' @param gamma_term_b
+#'
+#' @return bessel function result
+#'
+#'
+#' @export
+rojstaczer_parallel <- function(frequency, radius_well, transmissivity, storage_confining, storage_aquifer, diffusivity_confining, diffusivity_vadose, thickness_confining, thickness_vadose, loading_efficiency, attenuation) {
+    .Call('_aquifer_rojstaczer_parallel', PACKAGE = 'aquifer', frequency, radius_well, transmissivity, storage_confining, storage_aquifer, diffusivity_confining, diffusivity_vadose, thickness_confining, thickness_vadose, loading_efficiency, attenuation)
+}
+
+a_cpp <- function(x) {
+    .Call('_aquifer_a_cpp', PACKAGE = 'aquifer', x)
+}
+
+b_cpp <- function(x) {
+    .Call('_aquifer_b_cpp', PACKAGE = 'aquifer', x)
+}
+
+c_cpp <- function(x) {
+    .Call('_aquifer_c_cpp', PACKAGE = 'aquifer', x)
+}
+
+#' Calculate equations 4 and 5 from bouwer, 1989
+#'
+#' @param rw
+#' @param Le
+#' @param Lw
+#' @param H
+#'
+#' @return ln(Re/rw)
+#'
+bouwer_rice_abc <- function(rw, Le, Lw, H) {
+    .Call('_aquifer_bouwer_rice_abc', PACKAGE = 'aquifer', rw, Le, Lw, H)
+}
+
+#' Calculate transmissivity with Bouwer-Rice solution
+#'
+#' @param time the elapsed time
+#' @param drawdown the drawdown
+#' @param radius_screen radius of the screen
+#' @param radius_casing radius of the casing where the water level is
+#' @param Le
+#' @param Lw
+#' @param H
+#'
+#' @return transmissivity from bouwer_rice
+#'
+#' @export
+bouwer_rice <- function(time, drawdown, radius_screen, radius_casing, Le, Lw, H) {
+    .Call('_aquifer_bouwer_rice', PACKAGE = 'aquifer', time, drawdown, radius_screen, radius_casing, Le, Lw, H)
+}
+
+slug_cbp_laplace_single <- function(p, radius_casing, radius_screen, radius, storativity = 1e-5, transmissivity = 1e-2, head_0 = 1) {
+    .Call('_aquifer_slug_cbp_laplace_single', PACKAGE = 'aquifer', p, radius_casing, radius_screen, radius, storativity, transmissivity, head_0)
+}
+
+#' @title
+#' slug_cbp_parallel
+#'
+#' @description
+#' parallel boost function for the Bessel function
+#'
+#' @param p elapsed time since slug introduction
+#' @param radius_casing radius of the casing where the water level is
+#' @param radius_screen radius of the screened interval
+#' @param radius radius from borehole center to calculate the response
+#' @param storativity aquifer storativity
+#' @param transmissivity aquifer transmissivity
+#' @param head_0 height of introduced head change
+#'
+#' @return cbp solution
+#'
+#'
+#' @export
+#'
+slug_cbp_parallel <- function(p, radius_casing, radius_screen, radius, storativity = 1e-5, transmissivity = 1e-2, head_0 = 1) {
+    .Call('_aquifer_slug_cbp_parallel', PACKAGE = 'aquifer', p, radius_casing, radius_screen, radius, storativity, transmissivity, head_0)
+}
+
+hvorslev_shape <- function(x, d, r, l, case_num) {
+    .Call('_aquifer_hvorslev_shape', PACKAGE = 'aquifer', x, d, r, l, case_num)
+}
+
+#' @title
+#' bessel_k_single
+#'
+#' @description
+#' boost function for the Bessel function
+#'
+#' @param x value for bessel function
+#' @param nu order
+#'
+#' @return result of the bessel function
+#'
+#'
+#' @export
+#'
+bessel_k_single <- function(x, nu) {
+    .Call('_aquifer_bessel_k_single', PACKAGE = 'aquifer', x, nu)
+}
+
+#' @title
+#' bessel_i_gamma_term
+#'
+#' @description
+#' Modified Bessel function of first kind order 1
+#'
+#' @param x \code{numeric} value to evaluate
+#' @param v \code{numeric} value to evaluate
+#'
+#' @return bessel function result
+#'
+#'
+#' @export
+bessel_i_gamma_term <- function(jj, v) {
+    .Call('_aquifer_bessel_i_gamma_term', PACKAGE = 'aquifer', jj, v)
+}
+
+#' @title
+#' bessel_i_complex
+#'
+#' @description
+#' Modified Bessel function of first kind order 1
+#'
+#' @param x \code{numeric} value to evaluate
+#' @param v \code{numeric} value to evaluate
+#'
+#' @return bessel function result
+#'
+#'
+#' @export
+bessel_i_complex_new <- function(x, v, gamma_term) {
+    .Call('_aquifer_bessel_i_complex_new', PACKAGE = 'aquifer', x, v, gamma_term)
+}
+
+#' @title
+#' bessel_k_complex for complex values
+#'
+#' @description
+#' Modified Bessel function of second kind order 0
+#'
+#' @param x \code{numeric} value to evaluate
+#'
+#' @return bessel function result
+#'
+#'
+#' @export
+bessel_k_complex_opt <- function(x, gamma_term_a, gamma_term_b) {
+    .Call('_aquifer_bessel_k_complex_opt', PACKAGE = 'aquifer', x, gamma_term_a, gamma_term_b)
+}
+
+#' @title
+#' bessel_i_complex
+#'
+#' @description
+#' Modified Bessel function of first kind order 1
+#'
+#' @param x \code{numeric} value to evaluate
+#' @param v \code{numeric} value to evaluate
+#'
+#' @return bessel function result
+#'
+#'
+#' @export
+bessel_i_complex <- function(x, v) {
+    .Call('_aquifer_bessel_i_complex', PACKAGE = 'aquifer', x, v)
+}
+
+#' @title
+#' bessel_k_complex for complex values
+#'
+#' @description
+#' Modified Bessel function of second kind order 0
+#'
+#' @param x \code{numeric} value to evaluate
+#'
+#' @return bessel function result
+#'
+#'
+#' @export
+bessel_k_complex <- function(x) {
+    .Call('_aquifer_bessel_k_complex', PACKAGE = 'aquifer', x)
+}
+
+#' @title
+#' bessel_k_complex_single for complex values
+#'
+#' @description
+#' Modified Bessel function of second kind order 0
+#'
+#' @param x \code{numeric} value to evaluate
+#'
+#' @return bessel function result
+#'
+#'
+#' @export
+bessel_k_complex_single <- function(x) {
+    .Call('_aquifer_bessel_k_complex_single', PACKAGE = 'aquifer', x)
+}
+
+#' @title
+#' bessel_k_parallel
+#'
+#' @description
+#' parallel boost function for the Bessel function
+#'
+#' @param x value for bessel function
+#' @param nu order
+#'
+#' @return bessel k
+#'
+#'
+#' @export
+#'
+bessel_k_parallel <- function(x, nu) {
+    .Call('_aquifer_bessel_k_parallel', PACKAGE = 'aquifer', x, nu)
+}
+
+#' @title
+#' bessel_k_complex_parallel
+#'
+#' @description
+#' parallel boost function for the Bessel function
+#'
+#' @param x value for bessel function
+#'
+#' @return bessel k
+#'
+#'
+#' @export
+#'
+bessel_k_complex_parallel <- function(x) {
+    .Call('_aquifer_bessel_k_complex_parallel', PACKAGE = 'aquifer', x)
+}
+
+#' @title
 #' bh_tgamma
 #'
 #' @description
@@ -157,23 +436,6 @@ grf_parallel <- function(u, a) {
 }
 
 #' @title
-#' bessel_k
-#'
-#' @description
-#' boost function for the Bessel function
-#'
-#' @param u value for bessel function
-#'
-#' @return result of the bessel function
-#'
-#'
-#' @export
-#'
-bessel_k <- function(u) {
-    .Call('_aquifer_bessel_k', PACKAGE = 'aquifer', u)
-}
-
-#' @title
 #' hantush_well_single
 #'
 #' @description
@@ -212,6 +474,31 @@ hantush_well_single <- function(u, b, n_terms) {
 #'
 hantush_well_parallel <- function(u, b, n_terms) {
     .Call('_aquifer_hantush_well_parallel', PACKAGE = 'aquifer', u, b, n_terms)
+}
+
+weeks_1979 <- function(lag, D, L, precision = 1e-8, inverse = TRUE) {
+    .Call('_aquifer_weeks_1979', PACKAGE = 'aquifer', lag, D, L, precision, inverse)
+}
+
+#' @title
+#' vadose_response
+#'
+#' @description
+#' weeks_1979 1-D air diffusivity
+#'
+#' @param time \code{numeric} value of elapsed time
+#' @param D \code{numeric} unsaturated zone air diffusivity
+#' @param L \code{numeric} unsaturated zone thickness
+#' @param precision \code{numeric} precision of solution
+#' @param inverse \code{logical} inverse water level relationship
+#'
+#' @return weeks 1979 model
+#'
+#'
+#' @export
+#'
+vadose_response <- function(time, D, L, precision = 1e-08, inverse = TRUE) {
+    .Call('_aquifer_vadose_response', PACKAGE = 'aquifer', time, D, L, precision, inverse)
 }
 
 #' @title
