@@ -5,22 +5,26 @@
 #
 # frequency <- seq(0, 1.0, 0.01) / 86400
 # omega <- frequency  * 2 * pi
-# zw   <- 19
-# z    <- 165
-# c    <- 240 / (100*100) -> diffusivity_vertical
-# ca   <- 7.5 / (100*100) -> diffusivity_vadose
-# alpha <- 0.5 # (beta * (1 + vu)) / (3 *(1 - vu))
+# zw   <- (19) * 100
+# z    <- (165) * 100
+# c    <- 240  -> diffusivity_vertical
+# ca   <- 7.5 -> diffusivity_vadose
+# alpha <- 0.48 # (beta * (1 + vu)) / (3 *(1 - vu))
 #
 # sqrt_t1 <- sqrt((1i * omega) / ca)
-# pa <- 2.0 / (exp( sqrt_t1 * z) +
-#              exp(-sqrt_t1 * z))
+# pa <- 2.0 / (exp( sqrt_t1 * zw) +
+#              exp(-sqrt_t1 * zw))
 #
 # be <- -1 + alpha + (pa - alpha) *
 #   exp(-sqrt((1i * omega) / c) * (z - zw))
 #
 # frequency <- (frequency * 86400)
 # plot(be~frequency, tf)
-# points(Mod(be)~frequency,  type='l')
+# points(1/(1+Mod(be))~frequency,  type='l')
+# abline(h = 0.52)
+#
+# plot(1/(-1+Mod(be))~frequency,  type='l')
+
 #
 #
 #

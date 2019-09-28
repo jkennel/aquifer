@@ -12,7 +12,7 @@ kelvin <- function(z, nSeq = 2) {
 
   n  <- 0:(nSeq-1)
   c1 <- exp(1i * pi / 4.0)
-  c2 <- matrix(zapsmall(exp(-pi * n * 1i / 2.0)),
+  c2 <- matrix(zapsmall(exp(-pi * n * 1i / 2.0), digits = 64),
                ncol = nSeq,
                nrow = length(z),
                byrow = TRUE)

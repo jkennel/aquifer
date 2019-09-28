@@ -1,52 +1,41 @@
 # Hussein
 # Determination of Fluid Flow Properties From the Response of Water Levels in Wells to Atmospheric Loading
-#' rojstaczer_r
-#'
-#' @param frequency
-#' @param radius_well
-#' @param transmissivity
-#' @param storage_confining
-#' @param storage_aquifer
-#' @param diffusivity_confining
-#' @param diffusivity_vadose
-#' @param thickness_confining
-#' @param thickness_vadose
-#' @param loading_efficiency
-#' @param attenuation
-#' @param inverse calculate the barometric or loading response function
+#' areal_rojstaczer_semiconfined
+#' @inheritParams parameters
 #'
 #' @return
 #' @export
 #'
-rojstaczer_r <- function(frequency,
-                         radius_well,
-                         transmissivity,
-                         storage_confining,
-                         storage_aquifer,
-                         diffusivity_confining,
-                         diffusivity_vadose,
-                         thickness_confining,
-                         thickness_vadose,
-                         loading_efficiency,
-                         attenuation,
-                         inverse = TRUE) {
+areal_rojstaczer_semiconfined <- function(frequency,
+                                          radius_well,
+                                          transmissivity,
+                                          storage_confining,
+                                          storage_aquifer,
+                                          diffusivity_confining,
+                                          diffusivity_vadose,
+                                          thickness_confining,
+                                          thickness_vadose,
+                                          loading_efficiency,
+                                          attenuation,
+                                          inverse = TRUE) {
 
   omega  <- .calc_omega(frequency)
-  R      <- .calc_R(omega, thickness_vadose, diffusivity_vadose)
-  Q      <- .calc_Q(omega, thickness_confining, diffusivity_confining)
+  R      <- .calc_dimensionless_frequency(omega, thickness_vadose, diffusivity_vadose)
+  Q      <- .calc_dimensionless_frequency(omega, thickness_confining, diffusivity_confining)
   W      <- .calc_W(omega, radius_well, transmissivity)
 
   sqrt_R <- sqrt(R)
 
   mn     <- .calc_mn(sqrt_R, attenuation)
 
-  p0     <- ((mn$m + 1i * mn$n) - loading_efficiency) *
-              exp(-(1i + 1.0) * sqrt(Q)) + loading_efficiency
+  p0     <- ((mn$m - 1i * mn$n) - loading_efficiency) *
+    exp(-(1i + 1.0) * sqrt(Q)) + loading_efficiency
 
   k0     <- Bessel::BesselK(
     ((W^2 * (storage_aquifer^2 + (storage_confining / (2.0 * Q))^2) )^0.25) *
-                              exp(0.5 * 1i * atan(2 * Q)), 0)  # well/aquifer
+      exp(0.5 * 1i * atan(2.0 * Q)), 0)  # well/aquifer
 
+  #W <- 0#ifelse(Mod(W * k0) < 1e-10, 0.0, W)
   x0 <- (-1 + p0) / (1 + (1i * 0.5 * W * k0))
 
   # for absolute pressure transducer
@@ -54,10 +43,12 @@ rojstaczer_r <- function(frequency,
   if(!inverse) {
     x_new <-  1 - Mod(x0)
     y_new <- -1 * Arg(x0)
-    return(complex(modulus = x_new, argument = y_new))
+
+    return(data.table(frequency, R, Q, W, Q_div_W = Q/W, R_div_Q = R/Q,
+                      response = complex(modulus = x_new, argument = y_new)))
   }
 
-  return(x0)
+  return(data.table(frequency, R, Q, W, Q_div_W = Q/W, R_div_Q = R/Q, response = x0))
 }
 
 # x <- seq(0, 2*pi * 12, pi/90)

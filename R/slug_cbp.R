@@ -32,6 +32,10 @@ slug_cbp <- function(time,
                      head_0 = 1,
                      n = 12L) {
 
+  if(is.null(radius_casing) & is.null(radius_screen) & is.null(radius)){
+    stop('At least one radius value needs to be provided')
+  }
+
   if (is.null(radius_casing) & !is.null(radius_screen)) {
     radius_casing <- radius_screen
   }
@@ -58,77 +62,147 @@ slug_cbp <- function(time,
 
 }
 
-.slug_cbp_laplace <- function(p,
-                              radius_casing = NULL,
-                              radius_screen = NULL,
-                              radius = NULL,
-                              storativity = 1e-5,
-                              transmissivity = 1e-2,
-                              head_0 = 1) {
+# .slug_cbp_laplace_base <- function(p,
+#                               radius_casing = NULL,
+#                               radius_screen = NULL,
+#                               radius = NULL,
+#                               storativity = 1e-5,
+#                               transmissivity = 1e-2,
+#                               head_0 = 1) {
+#
+#   if(is.null(radius_casing) & is.null(radius_screen) & is.null(radius)){
+#     stop('At least one radius value needs to be provided')
+#   }
+#
+#   if (is.null(radius_casing) & !is.null(radius_screen)) {
+#     radius_casing <- radius_screen
+#   }
+#
+#   if (!is.null(radius_casing) & is.null(radius_screen)) {
+#     radius_screen <- radius_casing
+#   }
+#
+#   if (is.null(radius)) {
+#     radius <- radius_screen
+#   }
+#
+#   alpha <- (radius_screen^2 * storativity) / (radius_casing^2)
+#
+#   q <- sqrt((p * storativity) / transmissivity)
+#   radius_screen_q <- radius_screen * q
+#
+#   if (radius == radius_screen) {
+#     bess_rs <- bess_r <- besselK(radius_screen_q, 0L)
+#   } else {
+#     bess_rs <- besselK(radius_screen_q, 0L)
+#     bess_r  <- besselK(radius * q, 0L)
+#   }
+#
+#   # Cooper, Bredehoeft and Papdopulos, 1967
+#   # Response of a Finite-Diameter Well to an Instantaneous Charge Water
+#   # laplace space solution eq 7
+#
+#   # bessel function from boost
+#   (radius_screen * storativity * head_0 * bess_r) /
+#     ((transmissivity * q) *
+#        ((radius_screen_q * bess_rs) +
+#           (2 * alpha * besselK(radius_screen_q, 1L))))
+#
+# }
 
 
 
-  alpha <- (radius_screen^2 * storativity) / (radius_casing^2)
-
-  q <- sqrt((p * storativity) / transmissivity)
-  radius_screen_q <- radius_screen * q
-
-  if (radius == radius_screen) {
-    bess_rs <- bess_r <- bessel_k_parallel(radius_screen_q, 0L)
-  } else {
-    bess_rs <- bessel_k_parallel(radius_screen_q, 0L)
-    bess_r  <- bessel_k_parallel(radius * q, 0L)
-  }
-
-  # Cooper, Bredehoeft and Papdopulos, 1967
-  # Response of a Finite-Diameter Well to an Instantaneous Charge Water
-  # laplace space solution eq 7
-
-  # bessel function from boost
-  (radius_screen * storativity * head_0 * bess_r) /
-    ((transmissivity * q) *
-       ((radius_screen_q * bess_rs) +
-          (2 * alpha * bessel_k_parallel(radius_screen_q, 1L))))
-
-}
-
-
-
-# The complex implementation is slow.
-.slug_cbp_laplace_complex <- function(p,
-                              radius_casing = NULL,
-                              radius_screen = NULL,
-                              radius = NULL,
-                              storativity = 1e-5,
-                              transmissivity = 1e-2,
-                              head_0 = 1) {
-
-
-  require(Bessel)
-
-  alpha <- (radius_screen^2 * storativity) / (radius_casing^2)
-
-  q <- sqrt((p * storativity) / transmissivity)
-  radius_screen_q <- radius_screen * q
-
-  if (radius == radius_screen) {
-    bess_rs <- bess_r <- BesselK(radius_screen_q, 0L)
-  } else {
-    bess_rs <- BesselK(radius_screen_q, 0L)
-    bess_r  <- BesselK(radius * q, 0L)
-  }
-
-  # Cooper, Bredehoeft and Papdopulos, 1967
-  # Response of a Finite-Diameter Well to an Instantaneous Charge Water
-  # laplace space solution eq 7
-
-  # bessel function from boost
-  (radius_screen * storativity * head_0 * bess_r) /
-    ((transmissivity * q) *
-       ((radius_screen_q * bess_rs) +
-          (2 * alpha * BesselK(radius_screen_q, 1L))))
-
-}
+# .slug_cbp_laplace <- function(p,
+#                               radius_casing = NULL,
+#                               radius_screen = NULL,
+#                               radius = NULL,
+#                               storativity = 1e-5,
+#                               transmissivity = 1e-2,
+#                               head_0 = 1) {
+#
+#   if(is.null(radius_casing) & is.null(radius_screen) & is.null(radius)){
+#     stop('At least one radius value needs to be provided')
+#   }
+#
+#   if (is.null(radius_casing) & !is.null(radius_screen)) {
+#     radius_casing <- radius_screen
+#   }
+#
+#   if (!is.null(radius_casing) & is.null(radius_screen)) {
+#     radius_screen <- radius_casing
+#   }
+#
+#   if (is.null(radius)) {
+#     radius <- radius_screen
+#   }
+#
+#   alpha <- (radius_screen^2 * storativity) / (radius_casing^2)
+#
+#   q <- sqrt((p * storativity) / transmissivity)
+#   radius_screen_q <- radius_screen * q
+#
+#   if (radius == radius_screen) {
+#     bess_rs <- bess_r <- bessel_k_parallel(radius_screen_q, 0L)
+#   } else {
+#     bess_rs <- bessel_k_parallel(radius_screen_q, 0L)
+#     bess_r  <- bessel_k_parallel(radius * q, 0L)
+#   }
+#
+#   # Cooper, Bredehoeft and Papdopulos, 1967
+#   # Response of a Finite-Diameter Well to an Instantaneous Charge Water
+#   # laplace space solution eq 7
+#
+#   # bessel function from boost
+#   (radius_screen * storativity * head_0 * bess_r) /
+#     ((transmissivity * q) *
+#        ((radius_screen_q * bess_rs) +
+#           (2 * alpha * bessel_k_parallel(radius_screen_q, 1L))))
+#
+# }
 
 
+#
+#
+#
+# # The complex implementation is slow.
+# .slug_cbp_laplace_complex <- function(p,
+#                               radius_casing = NULL,
+#                               radius_screen = NULL,
+#                               radius = NULL,
+#                               storativity = 1e-5,
+#                               transmissivity = 1e-2,
+#                               head_0 = 1) {
+#
+#
+#   require(Bessel)
+#
+#   alpha <- (radius_screen^2 * storativity) / (radius_casing^2)
+#
+#   q <- sqrt((p * storativity) / transmissivity)
+#   radius_screen_q <- radius_screen * q
+#
+#   if (radius == radius_screen) {
+#     bess_rs <- bess_r <- Bessel::BesselK(radius_screen_q, 0L)
+#   } else {
+#     bess_rs <- Bessel::BesselK(radius_screen_q, 0L)
+#     bess_r  <- Bessel::BesselK(radius * q, 0L)
+#   }
+#
+#   # Cooper, Bredehoeft and Papdopulos, 1967
+#   # Response of a Finite-Diameter Well to an Instantaneous Charge Water
+#   # laplace space solution eq 7
+#
+#   # bessel function from boost
+#   (radius_screen * storativity * head_0 * bess_r) /
+#     ((transmissivity * q) *
+#        ((radius_screen_q * bess_rs) +
+#           (2 * alpha * Bessel::BesselK(radius_screen_q, 1L))))
+#
+# }
+
+# microbenchmark::microbenchmark(
+#   besselK(abs(rnorm(1000)), 0),
+#   besselK(abs(rnorm(1000)), 1),
+#   Bessel::BesselK(abs(rnorm(1000)), 0)
+# )
 

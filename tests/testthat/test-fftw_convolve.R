@@ -34,4 +34,19 @@ test_that("fftw_convolve works", {
   expect_equal(RcppRoll::roll_mean(x, n = 7, weights = y, fill = 'NA', align = 'center', normalize = TRUE),
                fftw_convolve(x, y, TRUE))
 
+
+
+
+  x <- rnorm(23)
+  y <- abs(rnorm(7))
+  expect_equal(RcppRoll::roll_mean(x, n = 7, weights = y, fill = 'NA', align = 'left', normalize = TRUE),
+               fftw_convolve(x, y, TRUE, align = 'left'))
+
+  x <- rnorm(23)
+  y <- abs(rnorm(7))
+  expect_equal(RcppRoll::roll_mean(x, n = 7, weights = y, fill = 'NA', align = 'right', normalize = TRUE),
+               fftw_convolve(x, y, TRUE, align = 'right'))
+
+
+
 })
