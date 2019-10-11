@@ -2,7 +2,7 @@
 % Please edit documentation in R/tidal_liu_1989.R
 \name{tidal_liu_1989}
 \alias{tidal_liu_1989}
-\title{liu_1989}
+\title{tidal_liu_1989}
 \usage{
 tidal_liu_1989(frequency, storativity, transmissivity, thickness_aquifer,
   height_water, radius_well, radius_casing = radius_well,
@@ -12,7 +12,7 @@ tidal_liu_1989(frequency, storativity, transmissivity, thickness_aquifer,
 \item{gravity}{}
 }
 \description{
-liu_1989
+tidal_liu_1989
 }
 \examples{
 data('liu_1989_fig_8')

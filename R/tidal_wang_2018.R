@@ -1,11 +1,24 @@
-wang_2018 <- function(frequency,
-                      storativity,
-                      transmissivity,
-                      k_vertical,
-                      thickness_confining,
-                      radius_well,
-                      radius_casing = radius_well
-                      ) {
+#' tidal_wang_2018
+#'
+#' @param frequency
+#' @param storativity
+#' @param transmissivity
+#' @param k_vertical
+#' @param thickness_confining
+#' @param radius_well
+#' @param radius_casing
+#'
+#' @return
+#' @export
+#'
+tidal_wang_2018 <- function(frequency,
+                            storativity,
+                            transmissivity,
+                            k_vertical,
+                            thickness_confining,
+                            radius_well,
+                            radius_casing = radius_well
+) {
 
 
 

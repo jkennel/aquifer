@@ -1,4 +1,4 @@
-#' liu_1989
+#' tidal_liu_1989
 #'
 #' @param frequency
 #' @param storativity
