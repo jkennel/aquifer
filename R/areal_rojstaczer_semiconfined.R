@@ -38,10 +38,11 @@ areal_rojstaczer_semiconfined <- function(frequency,
   #W <- 0#ifelse(Mod(W * k0) < 1e-10, 0.0, W)
   x0 <- (-1 + p0) / (1 + (1i * 0.5 * W * k0))
 
+
   # for absolute pressure transducer
   # need to further review this
   if(!inverse) {
-    x_new <-  1 - Mod(x0)
+    x_new <-  -1 + Mod(x0)
     y_new <- -1 * Arg(x0)
 
     return(data.table(frequency, R, Q, W, Q_div_W = Q/W, R_div_Q = R/Q,

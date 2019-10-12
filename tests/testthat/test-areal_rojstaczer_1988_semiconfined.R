@@ -36,7 +36,28 @@ test_that("rojstaczer 1988 areal amplitude figure 3 works", {
                                             loading_efficiency,
                                             attenuation,
                                             inverse = TRUE)
-  # plot(Mod(response)~W, roj_1988, type='l', log = 'x', xlim = c(1e-4, 10))
+  #plot(Mod(response)~W, roj_1988, type='l', log = 'x', xlim = c(1e-4, 10), ylim = c(0, 1))
+  plot(unwrap(Arg(response)) * 180/pi~W, roj_1988, type='l', log = 'x', xlim = c(1e-4, 10), ylim = c(-360, 360))
+
+  roj_1988 <- areal_rojstaczer_semiconfined(frequency,
+                                            radius_well,
+                                            transmissivity,
+                                            storage_confining,
+                                            storage_aquifer,
+                                            diffusivity_confining,
+                                            diffusivity_vadose,
+                                            thickness_confining,
+                                            thickness_vadose,
+                                            loading_efficiency,
+                                            attenuation,
+                                            inverse = FALSE)
+  #points(Mod(response)~W, roj_1988, type='l', log = 'x', xlim = c(1e-4, 10), col = 'red')
+  roj_1988$response <- complex(real = Re(roj_1988$response),
+                               im = Im(roj_1988$response))
+  points(unwrap(Arg(response)) * 180/pi~W, roj_1988, type='l', log = 'x', xlim = c(1e-4, 10), col = 'red')
+
+
+
   # points(response~W, gain_sub)
   d <- mean(abs((Mod(roj_1988$response) - gain_sub$response)))
 
@@ -910,3 +931,46 @@ test_that("rojstaczer 1988 barometric and loading comparison", {
 })
 
 
+
+
+
+
+thickness_confining  <- 1
+thickness_vadose     <- 40
+diffusivity_confining <- 100000
+
+storage_aquifer      <- 1e-5
+storage_confining    <- 1e-5
+
+attenuation          <- 0.5
+loading_efficiency   <- 0.5
+
+radius_well          <- 0.1
+diffusivity_vadose   <- 0.1
+
+frequency <- 10^seq(-1, 5, 0.1)
+transmissivity <- 5e-4
+roj_1988 <- areal_rojstaczer_semiconfined(frequency,
+                                          radius_well,
+                                          transmissivity,
+                                          storage_confining,
+                                          storage_aquifer,
+                                          diffusivity_confining,
+                                          diffusivity_vadose,
+                                          thickness_confining,
+                                          thickness_vadose,
+                                          loading_efficiency,
+                                          attenuation,
+                                          inverse = TRUE)
+
+library(ggplot2)
+p <- ggplot(roj_1988, aes(x = Re(response), y = Im(response), colour = frequency))
+p <- p + geom_point()
+p <- p + scale_color_continuous()
+p <- p + coord_equal()
+p
+
+plot(na.omit(roj_1988$response))
+plot(na.omit(roj_1988$response))
+
+plot(Mod(response)~frequency, roj_1988, type='l', log = 'x', ylim = c(0, 1))

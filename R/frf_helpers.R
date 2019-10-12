@@ -146,5 +146,29 @@ check_machine_max <- function(x, xmax = .Machine[['double.xmax']]) {
 
 
 
+#' convert_le_to_be
+#'
+#' @param tf complex transfer function
+#'
+#' @return
+#' @export
+#'
+convert_le_to_be <- function(tf) {
 
+  (tf - 1)
+
+}
+
+#' convert_for_rojstaczer
+#'
+#' @param tf
+#'
+#' @return
+#' @export
+#'
+convert_for_rojstaczer <- function(tf) {
+
+  Conj(tf)
+
+}
 
