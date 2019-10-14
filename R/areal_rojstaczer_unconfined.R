@@ -28,8 +28,7 @@ areal_rojstaczer_unconfined <- function(frequency,
   h1_h2   <- .calc_H1_H2(omega, 0, thickness_aquifer, diffusivity_vertical)
   uv      <- .calc_u_v(sqrt_Qu, h1_h2[['h1']], h1_h2[['h2']])
 
-
-
+  print(uv)
   p0 <- ((mn$m - 1i * mn$n) - loading_efficiency) *
     (uv$u + 1i * uv$v) + loading_efficiency
 

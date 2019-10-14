@@ -7,7 +7,7 @@
 areal_rojstaczer_semiconfined(frequency, radius_well, transmissivity,
   storage_confining, storage_aquifer, diffusivity_confining,
   diffusivity_vadose, thickness_confining, thickness_vadose,
-  loading_efficiency, attenuation, inverse = TRUE)
+  loading_efficiency, attenuation)
 }
 \arguments{
 \item{frequency}{the frequency in cycles per time (example units: cycles per day)}
@@ -29,8 +29,6 @@ areal_rojstaczer_semiconfined(frequency, radius_well, transmissivity,
 \item{loading_efficiency}{static loading efficiency}
 
 \item{attenuation}{the attenuation factor of the capillary fringe}
-
-\item{inverse}{if true water level follows the inverse of a barometric pressure change}
 }
 \description{
 areal_rojstaczer_semiconfined

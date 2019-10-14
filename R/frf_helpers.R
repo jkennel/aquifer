@@ -66,19 +66,23 @@
   n_exp_t1 <- 1.0 / exp_t1
 
   # handle infinite values
-  exp_t1   <- check_machine_max(exp_t1)
-  n_exp_t1 <- check_machine_max(n_exp_t1)
+  exp_t1   <- check_machine_max_complex(exp_t1)
+  n_exp_t1 <- check_machine_max_complex(n_exp_t1)
 
   h1 <- 1.0 + n_exp_t1 - ohm * (1.0 - n_exp_t1)
   h2 <- 1.0 +   exp_t1 + ohm * (1.0 -   exp_t1)
 
-  list(h1 = h1, h2 = h2)
+  list(h1 = zapsmall(h1, 16), h2 = zapsmall(h2, 16))
 
 }
 
-check_machine_max <- function(x, xmax = .Machine[['double.xmax']]) {
+check_machine_max_complex <- function(x, xmax = .Machine[['double.xmax']]) {
   complex(real      = ifelse(is.infinite(Re(x)), sign(Re(x)) * xmax, Re(x)),
           imaginary = ifelse(is.infinite(Im(x)), sign(Im(x)) * xmax, Im(x)))
+}
+
+check_machine_max <- function(x, xmax = .Machine[['double.xmax']]) {
+  ifelse(is.infinite(x), sign(x) * xmax, x)
 }
 
 
@@ -92,20 +96,29 @@ check_machine_max <- function(x, xmax = .Machine[['double.xmax']]) {
   cos_Qu <- cos(sqrt_Qu)
   sin_Qu <- sin(sqrt_Qu)
 
-
   # term 1 (minimize expensive operation)
   exp_t1   <- check_machine_max(exp(sqrt_Qu))
-  n_exp_t1 <- 1.0 / exp_t1
+  n_exp_t1 <- zapsmall(1.0 / exp_t1, digits = 300)
 
 
   # Rojstaczer and Riley, 1990 eq. 27ab
   u <- n_exp_t1 * (-cos_Qu + sin_Qu) / (2.0 * sqrt_Qu * h1) +
-         exp_t1 * ( cos_Qu + sin_Qu) / (2.0 * sqrt_Qu * h2) +
-         ((1/h1) - (1/h2)) / (2.0 * sqrt_Qu)
+    exp_t1 * ( cos_Qu + sin_Qu) / (2.0 * sqrt_Qu * h2) +
+    ((1/h1) - zapsmall(1/h2, 16)) / (2.0 * sqrt_Qu)
 
   v <- n_exp_t1 * ( cos_Qu + sin_Qu) / (2.0 * sqrt_Qu * h1) +
-         exp_t1 * (-cos_Qu + sin_Qu) / (2.0 * sqrt_Qu * h2) +
-         ((1/h2) - (1/h1)) / (2.0 * sqrt_Qu)
+    exp_t1 * (-cos_Qu + sin_Qu) / (2.0 * sqrt_Qu * h2) +
+    (zapsmall(1.0/h2, 16) - (1/h1)) / (2.0 * sqrt_Qu)
+
+  print(n_exp_t1)
+  very_small <- 1e-300
+  u <- ifelse(n_exp_t1 < very_small, 0.0, u)
+  v <- ifelse(n_exp_t1 < very_small, 0.0, v)
+
+
+
+  u <-  check_machine_max(u)
+  v <-  check_machine_max(v)
 
   list(u = u, v = v)
 

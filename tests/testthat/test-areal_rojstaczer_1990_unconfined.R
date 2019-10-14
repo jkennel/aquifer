@@ -23,7 +23,7 @@ test_that("rojstaczer & riley 1990 areal unconfined amplitude works", {
 
   gain_sub <- gain[R_div_Qu == R_Qu_ratio]
   frequency <- gain_sub$Qu * 2.0 * diffusivity_vertical / (2.0 * pi * thickness_saturated_well^2)
-
+  # frequency <- 10^(seq(-2, 3, 0.1))
   roj_1990 <- areal_rojstaczer_unconfined(frequency,
                                           radius_well,
                                           transmissivity,
