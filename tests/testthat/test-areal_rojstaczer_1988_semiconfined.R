@@ -936,13 +936,13 @@ test_that("rojstaczer 1988 barometric and loading comparison", {
 
 
 thickness_confining  <- 1
-thickness_vadose     <- 40
-diffusivity_confining <- 100000
+thickness_vadose     <- 1
+diffusivity_confining <- 1
 
 storage_aquifer      <- 1e-5
 storage_confining    <- 1e-5
 
-attenuation          <- 0.5
+attenuation          <- 1
 loading_efficiency   <- 0.5
 
 radius_well          <- 0.1
@@ -960,8 +960,7 @@ roj_1988 <- areal_rojstaczer_semiconfined(frequency,
                                           thickness_confining,
                                           thickness_vadose,
                                           loading_efficiency,
-                                          attenuation,
-                                          inverse = TRUE)
+                                          attenuation)
 
 library(ggplot2)
 p <- ggplot(roj_1988, aes(x = Re(response), y = Im(response), colour = frequency))

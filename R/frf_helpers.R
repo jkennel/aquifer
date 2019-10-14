@@ -72,7 +72,6 @@
   h1 <- 1.0 + n_exp_t1 - ohm * (1.0 - n_exp_t1)
   h2 <- 1.0 +   exp_t1 + ohm * (1.0 -   exp_t1)
 
-
   list(h1 = h1, h2 = h2)
 
 }
@@ -95,7 +94,7 @@ check_machine_max <- function(x, xmax = .Machine[['double.xmax']]) {
 
 
   # term 1 (minimize expensive operation)
-  exp_t1   <- exp(sqrt_Qu)
+  exp_t1   <- check_machine_max(exp(sqrt_Qu))
   n_exp_t1 <- 1.0 / exp_t1
 
 
@@ -119,10 +118,18 @@ check_machine_max <- function(x, xmax = .Machine[['double.xmax']]) {
 # Equation 4
 .calc_mn <- function(sqrt_r, attenuation) {
 
-  denom  <- (cosh(2.0 * (sqrt_r)) + cos(2.0 * (sqrt_r))) / (2.0 * attenuation)
+  m <- attenuation * (2 * cosh(sqrt_r) * cos(sqrt_r)) /
+                  (cosh(2 * sqrt_r) + cos(2 * sqrt_r))
+  n <- attenuation * (2 * sinh(sqrt_r) * sin(sqrt_r)) /
+                  (cosh(2 * sqrt_r) + cos(2 * sqrt_r))
 
-  m      <- (cosh(sqrt_r) * cos(sqrt_r)) / denom
-  n      <- (sinh(sqrt_r) * sin(sqrt_r)) / denom
+  # denom  <- (cosh(2.0 * (sqrt_r)) + cos(2.0 * (sqrt_r))) / (2.0 * attenuation)
+  #
+  # m      <- (cosh(sqrt_r) * cos(sqrt_r)) / denom
+  # n      <- (sinh(sqrt_r) * sin(sqrt_r)) / denom
+
+  # print(head(m))
+  # print(head(n))
 
   m      <- ifelse(is.nan(m), 0.0, m)
   n      <- ifelse(is.nan(n), 0.0, n)

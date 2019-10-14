@@ -36,8 +36,7 @@ test_that("rojstaczer & riley 1990 areal unconfined amplitude works", {
                                           thickness_vadose,
                                           thickness_aquifer,
                                           loading_efficiency,
-                                          attenuation,
-                                          inverse = TRUE)
+                                          attenuation)
 
   plot(Mod(response)~Qu, roj_1990, type='l', log = 'x', xlim = c(1e-3, 1e2))
   points(response~Qu, gain_sub)
@@ -64,8 +63,7 @@ test_that("rojstaczer & riley 1990 areal unconfined amplitude works", {
                                           thickness_vadose,
                                           thickness_aquifer,
                                           loading_efficiency,
-                                          attenuation,
-                                          inverse = TRUE)
+                                          attenuation)
 
   # plot(Mod(response)~Qu, roj_1990, type='l', log = 'x', xlim = c(1e-3, 1e2))
   # points(response~Qu, gain_sub)
@@ -93,8 +91,7 @@ test_that("rojstaczer & riley 1990 areal unconfined amplitude works", {
                                           thickness_vadose,
                                           thickness_aquifer,
                                           loading_efficiency,
-                                          attenuation,
-                                          inverse = TRUE)
+                                          attenuation)
 
   # plot(Mod(response)~Qu, roj_1990, type='l', log = 'x', xlim = c(1e-3, 1e2))
   # points(response~Qu, gain_sub)
@@ -121,8 +118,7 @@ test_that("rojstaczer & riley 1990 areal unconfined amplitude works", {
                                           thickness_vadose,
                                           thickness_aquifer,
                                           loading_efficiency,
-                                          attenuation,
-                                          inverse = TRUE)
+                                          attenuation)
 
   # plot(Mod(response)~Qu, roj_1990, type='l', log = 'x', xlim = c(1e-3, 1e2))
   # points(response~Qu, gain_sub)
@@ -150,8 +146,7 @@ test_that("rojstaczer & riley 1990 areal unconfined amplitude works", {
                                           thickness_vadose,
                                           thickness_aquifer,
                                           loading_efficiency,
-                                          attenuation,
-                                          inverse = TRUE)
+                                          attenuation)
 
   # plot(Mod(response)~Qu, roj_1990, type='l', log = 'x', xlim = c(1e-3, 1e2))
   # points(response~Qu, gain_sub)
@@ -207,8 +202,7 @@ test_that("rojstaczer & riley 1990 areal unconfined phase works", {
                                           thickness_vadose,
                                           thickness_aquifer,
                                           loading_efficiency,
-                                          attenuation,
-                                          inverse = TRUE)
+                                          attenuation)
 
   # plot(unwrap(Arg(response)) * 180/pi~Qu, roj_1990, type='l', log = 'x', xlim = c(1e-3, 1e2))
   # points(response~Qu, phase_sub)
@@ -236,8 +230,7 @@ test_that("rojstaczer & riley 1990 areal unconfined phase works", {
                                           thickness_vadose,
                                           thickness_aquifer,
                                           loading_efficiency,
-                                          attenuation,
-                                          inverse = TRUE)
+                                          attenuation)
 
   # plot(unwrap(Arg(response)) * 180/pi~Qu, roj_1990, type='l', log = 'x', xlim = c(1e-3, 1e2))
   # points(response~Qu, phase_sub)
@@ -266,8 +259,7 @@ test_that("rojstaczer & riley 1990 areal unconfined phase works", {
                                           thickness_vadose,
                                           thickness_aquifer,
                                           loading_efficiency,
-                                          attenuation,
-                                          inverse = TRUE)
+                                          attenuation)
 
   # plot(unwrap(Arg(response)) * 180/pi~Qu, roj_1990, type='l', log = 'x', xlim = c(1e-3, 1e2))
   # points(response~Qu, phase_sub)
@@ -295,8 +287,7 @@ test_that("rojstaczer & riley 1990 areal unconfined phase works", {
                                           thickness_vadose,
                                           thickness_aquifer,
                                           loading_efficiency,
-                                          attenuation,
-                                          inverse = TRUE)
+                                          attenuation)
 
   # plot(unwrap(Arg(response)) * 180/pi~Qu, roj_1990, type='l', log = 'x', xlim = c(1e-3, 1e2))
   # points(response~Qu, phase_sub)
@@ -325,8 +316,7 @@ test_that("rojstaczer & riley 1990 areal unconfined phase works", {
                                           thickness_vadose,
                                           thickness_aquifer,
                                           loading_efficiency,
-                                          attenuation,
-                                          inverse = TRUE)
+                                          attenuation)
 
   # plot(unwrap(Arg(response)) * 180/pi~Qu, roj_1990, type='l', log = 'x', xlim = c(1e-3, 1e2))
   # points(response~Qu, phase_sub)
@@ -340,59 +330,57 @@ test_that("rojstaczer & riley 1990 areal unconfined phase works", {
 
 
 
-test_that("rojstaczer & Riley 1990 unconfined barometric and loading comparison", {
-
-library(data.table)
-
-thickness_aquifer    <- 100
-thickness_vadose     <- thickness_aquifer
-thickness_saturated_well <- thickness_aquifer
-diffusivity_vertical <- 0.01
-
-specific_yield       <- 0.02
-storage_aquifer      <- 0.001
-k_vertical           <- 0.0     # set ohm = 0
-
-storativity          <- 1e-5
-transmissivity       <- 1e-4
-
-attenuation          <- 1.0
-loading_efficiency   <- 0.5
-
-
-diffusivity_vadose   <- 0.00001
-
-frequency <- 10^seq(-3, 3, 0.1)
-
-roj_1990_b <- areal_rojstaczer_unconfined(frequency,
-                                        radius_well,
-                                        transmissivity,
-                                        storage_aquifer,
-                                        specific_yield,
-                                        k_vertical,
-                                        diffusivity_vertical,
-                                        diffusivity_vadose,
-                                        thickness_saturated_well,
-                                        thickness_vadose,
-                                        thickness_aquifer,
-                                        loading_efficiency,
-                                        attenuation,
-                                        inverse = TRUE)
-
-roj_1990_l <- areal_rojstaczer_unconfined(frequency,
-                                          radius_well,
-                                          transmissivity,
-                                          storage_aquifer,
-                                          specific_yield,
-                                          k_vertical,
-                                          diffusivity_vertical,
-                                          diffusivity_vadose,
-                                          thickness_saturated_well,
-                                          thickness_vadose,
-                                          thickness_aquifer,
-                                          loading_efficiency,
-                                          attenuation,
-                                          inverse = FALSE)
-expect_equal(Mod(roj_1990_l$response), 1 - Mod(roj_1990_b$response))
-
-})
+# test_that("rojstaczer & Riley 1990 unconfined barometric and loading comparison", {
+#
+# library(data.table)
+#
+# thickness_aquifer    <- 100
+# thickness_vadose     <- thickness_aquifer
+# thickness_saturated_well <- thickness_aquifer
+# diffusivity_vertical <- 0.01
+#
+# specific_yield       <- 0.02
+# storage_aquifer      <- 0.001
+# k_vertical           <- 0.0     # set ohm = 0
+#
+# storativity          <- 1e-5
+# transmissivity       <- 1e-4
+#
+# attenuation          <- 1.0
+# loading_efficiency   <- 0.5
+#
+#
+# diffusivity_vadose   <- 0.00001
+#
+# frequency <- 10^seq(-3, 3, 0.1)
+#
+# roj_1990_b <- areal_rojstaczer_unconfined(frequency,
+#                                         radius_well,
+#                                         transmissivity,
+#                                         storage_aquifer,
+#                                         specific_yield,
+#                                         k_vertical,
+#                                         diffusivity_vertical,
+#                                         diffusivity_vadose,
+#                                         thickness_saturated_well,
+#                                         thickness_vadose,
+#                                         thickness_aquifer,
+#                                         loading_efficiency,
+#                                         attenuation)
+#
+# roj_1990_l <- areal_rojstaczer_unconfined(frequency,
+#                                           radius_well,
+#                                           transmissivity,
+#                                           storage_aquifer,
+#                                           specific_yield,
+#                                           k_vertical,
+#                                           diffusivity_vertical,
+#                                           diffusivity_vadose,
+#                                           thickness_saturated_well,
+#                                           thickness_vadose,
+#                                           thickness_aquifer,
+#                                           loading_efficiency,
+#                                           attenuation)
+# expect_equal(Mod(roj_1990_l$response), 1 - Mod(roj_1990_b$response))
+#
+# })
