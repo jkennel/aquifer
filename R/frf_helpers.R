@@ -110,7 +110,7 @@ check_machine_max <- function(x, xmax = .Machine[['double.xmax']]) {
     exp_t1 * (-cos_Qu + sin_Qu) / (2.0 * sqrt_Qu * h2) +
     (zapsmall(1.0/h2, 16) - (1/h1)) / (2.0 * sqrt_Qu)
 
-  print(n_exp_t1)
+
   very_small <- 1e-300
   u <- ifelse(n_exp_t1 < very_small, 0.0, u)
   v <- ifelse(n_exp_t1 < very_small, 0.0, v)
