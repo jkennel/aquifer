@@ -63,6 +63,7 @@ tidal_hsieh_1987 <- function(frequency,
   # return data.table of frequency and response
   out <- data.table::data.table(frequency = rep(frequency, times = length(transmissivity)), psi, phi, e, f)
   out[, dimensionless_frequency := transmissivity / (frequency * radius_casing^2)]
+  #out[, a_prime := (1.0 / storativity) * (e^2 + f^2)^(-0.5)]
   out[, response := 1.0 / (e + f * 1i)]  # convert to imaginary
 
 }
@@ -70,6 +71,10 @@ tidal_hsieh_1987 <- function(frequency,
 
 
 #' fit_tidal_hsieh_1987
+#'
+#'  This function fits a empirical response function value to the Hsieh model.
+#'  For high transmissivity wells (>1e-4 m2/sec) this will likely not give
+#'  reasonable storativity values.
 #'
 #' @param frequency frequency in cycles per second
 #' @param gain value to fit in m/ns
@@ -89,20 +94,23 @@ tidal_hsieh_1987 <- function(frequency,
 #' hsieh <- tidal_hsieh_1987(frequency, storativity, transmissivity, radius_well)
 #'
 #' res <- fit_tidal_hsieh_1987(frequency = 1.9322736/86400,
-#'                  Mod(hsieh$response),       # m / nstrain
+#'                  Mod(hsieh$response),      # m / strain
 #'                  Arg(hsieh$response),      # degrees
 #'                  radius_well,
 #'                  radius_casing = radius_well)
 #' all.equal(res$par, log10(c(storativity, transmissivity)), tolerance = 0.05)
-fit_tidal_hsieh_1987 <- function(frequency = 1.9322736,
-                      gain,       # m / nstrain
-                      phase,      # degrees
-                      radius_well,
-                      radius_casing = radius_well) {
+fit_tidal_hsieh_1987 <- function(frequency = 1.9322736/86400,
+                                 gain,       # m / nstrain
+                                 phase,      # degrees
+                                 radius_well,
+                                 radius_casing = radius_well) {
 
-  amp_phase_cx <- complex(modulus = gain, argument = phase)
 
-  to_minimize <- function(par, amp_phase_cx, frequency, radius_well, radius_casing) {
+
+  to_minimize <- function(par, gain, phase, frequency, radius_well, radius_casing) {
+
+    amp_phase_cx <- complex(modulus = gain, argument = phase)
+
     resp <- tidal_hsieh_1987(frequency,
                              10^par[1], # storativity
                              10^par[2], # transmissivity
@@ -110,23 +118,28 @@ fit_tidal_hsieh_1987 <- function(frequency = 1.9322736,
                              radius_casing)$response
 
     # Calculate the complex difference
+
+    resp <- complex(modulus = Mod(resp) / 10^par[1], argument = Arg(resp))
+    # print(amp_phase_cx)
+    # print(resp)
+
     diff <- resp - amp_phase_cx
     # Difference as a real value distance
     Re(diff * Conj(diff))
 
   }
 
-
   par <- c(-5, -5)
   res <- optim(fn = to_minimize,
-             par = par,
-             lower = c(-8, -8),
-             upper = c(-3, 1),
-             method = 'L-BFGS-B',
-             amp_phase_cx = amp_phase_cx,
-             frequency = frequency,
-             radius_well = radius_well,
-             radius_casing = radius_casing)
+               par = par,
+               lower = c(-8, -8),
+               upper = c(-3, 1),
+               method = 'L-BFGS-B',
+               gain = gain,
+               phase = phase,
+               frequency = frequency,
+               radius_well = radius_well,
+               radius_casing = radius_casing)
 
 
 
