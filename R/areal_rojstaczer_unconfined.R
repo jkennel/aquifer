@@ -1,9 +1,7 @@
-
 #' @inheritParams parameters
 #' @export
 areal_rojstaczer_unconfined <- function(frequency,
                                         radius_well,
-                                        transmissivity,
                                         storage_aquifer,
                                         specific_yield,
                                         k_vertical,

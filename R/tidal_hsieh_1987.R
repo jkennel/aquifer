@@ -61,16 +61,79 @@ tidal_hsieh_1987 <- function(frequency,
   f  <-     t1 * (phi * ker_0 - psi * kei_0)
 
   # return data.table of frequency and response
-  out <- data.table::data.table(rep(frequency, times = length(transmissivity)))
+  out <- data.table::data.table(frequency = rep(frequency, times = length(transmissivity)), psi, phi, e, f)
   out[, dimensionless_frequency := transmissivity / (frequency * radius_casing^2)]
   out[, response := 1.0 / (e + f * 1i)]  # convert to imaginary
+
+}
+
+
+
+#' fit_tidal_hsieh_1987
+#'
+#' @param frequency frequency in cycles per second
+#' @param gain value to fit in m/ns
+#' @param phase phase shift relative to Earth tide
+#' @param radius_well radius of the well
+#' @param radius_casing radius of the casing
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' data('hsieh_1987_fig_2_3')
+#' storativity <- 1e-07
+#' transmissivity <- 1e-05
+#' radius_well <- 0.05
+#' frequency <- 1.9322736/86400
+#' hsieh <- tidal_hsieh_1987(frequency, storativity, transmissivity, radius_well)
+#'
+#' res <- fit_tidal_hsieh_1987(frequency = 1.9322736/86400,
+#'                  Mod(hsieh$response),       # m / nstrain
+#'                  Arg(hsieh$response),      # degrees
+#'                  radius_well,
+#'                  radius_casing = radius_well)
+#' all.equal(res$par, log10(c(storativity, transmissivity)), tolerance = 0.05)
+fit_tidal_hsieh_1987 <- function(frequency = 1.9322736,
+                      gain,       # m / nstrain
+                      phase,      # degrees
+                      radius_well,
+                      radius_casing = radius_well) {
+
+  amp_phase_cx <- complex(modulus = gain, argument = phase)
+
+  to_minimize <- function(par, amp_phase_cx, frequency, radius_well, radius_casing) {
+    resp <- tidal_hsieh_1987(frequency,
+                             10^par[1], # storativity
+                             10^par[2], # transmissivity
+                             radius_well,
+                             radius_casing)$response
+
+    # Calculate the complex difference
+    diff <- resp - amp_phase_cx
+    # Difference as a real value distance
+    Re(diff * Conj(diff))
+
+  }
+
+
+  par <- c(-5, -5)
+  res <- optim(fn = to_minimize,
+             par = par,
+             lower = c(-8, -8),
+             upper = c(-3, 1),
+             method = 'L-BFGS-B',
+             amp_phase_cx = amp_phase_cx,
+             frequency = frequency,
+             radius_well = radius_well,
+             radius_casing = radius_casing)
+
 
 
 }
 
 
 
-## Test the speed of complex generation
 # e <- rnorm(10000)
 # f <- rnorm(10000)
 #
