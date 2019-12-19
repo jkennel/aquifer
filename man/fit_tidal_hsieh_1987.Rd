@@ -4,8 +4,8 @@
 \alias{fit_tidal_hsieh_1987}
 \title{fit_tidal_hsieh_1987}
 \usage{
-fit_tidal_hsieh_1987(frequency = 1.9322736, gain, phase, radius_well,
-  radius_casing = radius_well)
+fit_tidal_hsieh_1987(frequency = 1.9322736/86400, gain, phase,
+  radius_well, radius_casing = radius_well)
 }
 \arguments{
 \item{frequency}{frequency in cycles per second}
@@ -19,7 +19,9 @@ fit_tidal_hsieh_1987(frequency = 1.9322736, gain, phase, radius_well,
 \item{radius_casing}{radius of the casing}
 }
 \description{
-fit_tidal_hsieh_1987
+This function fits a empirical response function value to the Hsieh model.
+For high transmissivity wells (>1e-4 m2/sec) this will likely not give
+reasonable storativity values.
 }
 \examples{
 data('hsieh_1987_fig_2_3')
@@ -30,7 +32,7 @@ frequency <- 1.9322736/86400
 hsieh <- tidal_hsieh_1987(frequency, storativity, transmissivity, radius_well)
 
 res <- fit_tidal_hsieh_1987(frequency = 1.9322736/86400,
-                 Mod(hsieh$response),       # m / nstrain
+                 Mod(hsieh$response),      # m / strain
                  Arg(hsieh$response),      # degrees
                  radius_well,
                  radius_casing = radius_well)
