@@ -6,6 +6,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // impulse_function
 Rcpp::NumericVector impulse_function(Rcpp::NumericVector& u, double flow_time_interval);
 RcppExport SEXP _aquifer_impulse_function(SEXP uSEXP, SEXP flow_time_intervalSEXP) {

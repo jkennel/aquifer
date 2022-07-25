@@ -18,7 +18,7 @@
 // [[Rcpp::export]]
 Rcpp::NumericVector well_function_coefficient(Rcpp::NumericVector flow_rate, double transmissivity){
 
-  return( flow_rate / (4 * PI * transmissivity));
+  return( flow_rate / (4 * M_PI * transmissivity));
 
 }
 
@@ -78,7 +78,7 @@ Rcpp::NumericVector grf_coefficient(Rcpp::NumericVector flow_rate,
   // } else {
 
     return( (flow_rate * pow(radius, (2 * v))) /
-            (4 * pow(PI, (1 - v)) * K * pow(thickness, (3 - flow_dimension))));
+            (4 * pow(M_PI, (1 - v)) * K * pow(thickness, (3 - flow_dimension))));
 
   // }
 }
